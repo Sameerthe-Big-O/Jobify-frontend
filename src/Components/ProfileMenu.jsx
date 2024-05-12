@@ -5,7 +5,7 @@ import { logout } from "../feature/authSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
   // const isLogedIn = useSelector(selectLoginCheck);
@@ -16,23 +16,22 @@ const ProfileMenu = () => {
   // }, [isAuthenticated])
   const dispatch = useDispatch();
   const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  };
-
-  const handleLogoutClick = () => {
-    dispatch(logout())
-    localStorage.removeItem('token');
-    localStorage.removeItem('Login')
-    toggleDropdown()
-    navigate('/')
     setIsOpen(!isOpen);
   };
-  
-  
-
-  
-  
- 
+  const Data = JSON.parse(localStorage.getItem("token"))
+  console.log(Data);
+  const [userData, setUserData] = useState([Data]);
+  console.log(userData);
+  // console.log("Navbar=>", JSON.parse(Data));
+  const handleLogoutClick = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    localStorage.removeItem("Login");
+    toggleDropdown();
+    navigate("/");
+    setIsOpen(!isOpen);
+  };
+  userData.map((data)=>(console.log(data.data.name)))
 
   return (
     <div className="relative inline-block z-50 text-left w-10">
@@ -48,6 +47,9 @@ const ProfileMenu = () => {
             alt="User Avatar"
           />
         </button>
+        {userData.map((data,index)=>(
+          <div key={index}>{data.data.name}</div>
+        ))}
       </div>
       {isOpen && (
         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">

@@ -1,7 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Input from "../Components/Input";
 import Img1 from "../assets/Images/avatar.svg";
 import tutorialsdev from "../assets/Images/tutorialsdev.png";
+
+import { io } from "socket.io-client";
+
+// "undefined" means the URL will be computed from the `window.location` object
+const URL =
+  process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
+
+console.log(URL);
 
 function ChatPage() {
   const [user, setUser] = useState(
@@ -10,92 +18,74 @@ function ChatPage() {
   const [conversations, setConversations] = useState([1, 2, 3, 4, 5]);
   const [messages, setMessages] = useState();
   const [message, setMessage] = useState("ISJAIDUASI");
-  const [users, setUsers] = useState([1,2,3,4,5]);
-  const [socket, setSocket] = useState(null);
+  const [users, setUsers] = useState([1, 2, 3, 4, 5]);
+  // const [socket, setSocket] = useState(null);
   const messageRef = useRef(null);
 
-  // useEffect(() => {
-  // 	setSocket(io('http://localhost:8080'))
-  // }, [])
+  const socket = io(URL, {
+    autoConnect: false,
+  });
 
-  // useEffect(() => {
-  // 	socket?.emit('addUser', user?.id);
-  // 	socket?.on('getUsers', users => {
-  // 		console.log('activeUsers :>> ', users);
-  // 	})
-  // 	socket?.on('getMessage', data => {
-  // 		setMessages(prev => ({
-  // 			...prev,
-  // 			messages: [...prev.messages, { user: data.user, message: data.message }]
-  // 		}))
-  // 	})
-  // }, [socket])
+  // const [isConnected, setIsConnected] = useState(socket.connected);
 
-  // useEffect(() => {
-  // 	messageRef?.current?.scrollIntoView({ behavior: 'smooth' })
-  // }, [messages?.messages])
+  const userData = JSON.parse(localStorage.getItem("token"));
+  const email = userData.data.email;
+  console.log(email);
+  useEffect(() => {
+    socket.connect(); // Manually connect the socket
 
-  // useEffect(() => {
-  // 	const loggedInUser = JSON.parse(localStorage.getItem('user:detail'))
-  // 	const fetchConversations = async () => {
-  // 		const res = await fetch(`http://localhost:8000/api/conversations/${loggedInUser?.id}`, {
-  // 			method: 'GET',
-  // 			headers: {
-  // 				'Content-Type': 'application/json',
-  // 			}
-  // 		});
-  // 		const resData = await res.json()
-  // 		setConversations(resData)
-  // 	}
-  // 	fetchConversations()
-  // }, [])
+    socket.emit("allRooms", "khizer@gmail.com");
+    socket.on("userRooms", async (rooms) => {
+      let userArray = rooms.map((rooma) => rooma.room.split("-"));
 
-  // useEffect(() => {
-  // 	const fetchUsers = async () => {
-  // 		const res = await fetch(`http://localhost:8000/api/users/${user?.id}`, {
-  // 			method: 'GET',
-  // 			headers: {
-  // 				'Content-Type': 'application/json',
-  // 			}
-  // 		});
-  // 		const resData = await res.json()
-  // 		setUsers(resData)
-  // 	}
-  // 	fetchUsers()
-  // }, [])
+      let userFetchArray = [];
 
-  // const fetchMessages = async (conversationId, receiver) => {
-  // 	const res = await fetch(`http://localhost:8000/api/message/${conversationId}?senderId=${user?.id}&&receiverId=${receiver?.receiverId}`, {
-  // 		method: 'GET',
-  // 		headers: {
-  // 			'Content-Type': 'application/json',
-  // 		}
-  // 	});
-  // 	const resData = await res.json()
-  // 	setMessages({ messages: resData, receiver, conversationId })
-  // }
+      for (let user of userArray) {
+        console.log("room Array", user);
 
-  // const sendMessage = async (e) => {
-  // 	setMessage('')
-  // 	socket?.emit('sendMessage', {
-  // 		senderId: user?.id,
-  // 		receiverId: messages?.receiver?.receiverId,
-  // 		message,
-  // 		conversationId: messages?.conversationId
-  // 	});
-  // 	const res = await fetch(`http://localhost:8000/api/message`, {
-  // 		method: 'POST',
-  // 		headers: {
-  // 			'Content-Type': 'application/json',
-  // 		},
-  // 		body: JSON.stringify({
-  // 			conversationId: messages?.conversationId,
-  // 			senderId: user?.id,
-  // 			message,
-  // 			receiverId: messages?.receiver?.receiverId
-  // 		})
-  // 	});
-  // }
+        user.map((userEmail) => {
+          console.log("uSER", userEmail, "already email,", email);
+          if (userEmail === "khizer@gmail.com") return;
+          userFetchArray.push(userEmail);
+        });
+      }
+      console.log("uses that are about to fetch", userFetchArray);
+
+      const uniqueUser = new Set(userFetchArray);
+      console.log("unique user", a);
+
+      const userDetail = [];
+      try {
+        for (let email in uniqueUser) {
+          const res = await fetch(
+            `http://localhost:3000/api/user/userProfile`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: email }),
+            }
+          );
+
+          const data = await res.json();
+
+          console.log(data);
+          userDetail.push(data);
+        }
+
+        console.log(userDetail);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        socket.emit("error", "Failed to send message");
+      }
+    });
+
+    return () => {
+      socket.disconnect(); // Clean up on component unmount
+    };
+  }, []);
+
   return (
     <div className="w-screen overflow-scroll flex">
       <div className="w-[25%] h-screen bg-secondary overflow-scroll">
@@ -166,7 +156,7 @@ function ChatPage() {
             <div className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-phone-outgoing"
+                className="icon icon-tabler icon-tabler-phone-outgoing"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -227,7 +217,7 @@ function ChatPage() {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-send"
+                className="icon icon-tabler icon-tabler-send"
                 width="30"
                 height="30"
                 viewBox="0 0 24 24"
@@ -249,7 +239,7 @@ function ChatPage() {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-circle-plus"
+                className="icon icon-tabler icon-tabler-circle-plus"
                 width="30"
                 height="30"
                 viewBox="0 0 24 24"
@@ -272,9 +262,12 @@ function ChatPage() {
         <div className="text-primary text-lg">People</div>
         <div>
           {users.length > 0 ? (
-            users.map(({ userId, user }) => {
+            users.map(({ userId, user }, index) => {
               return (
-                <div className="flex items-center py-8 border-b border-b-gray-300">
+                <div
+                  key={index}
+                  className="flex items-center py-8 border-b border-b-gray-300"
+                >
                   <div
                     className="cursor-pointer flex items-center"
                     onClick={() => fetchMessages("new", user)}

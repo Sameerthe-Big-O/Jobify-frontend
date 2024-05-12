@@ -56,7 +56,7 @@ function Navbar() {
     setOpen(!open);
   };
   const loginCheck = localStorage.getItem("Login");
-  console.log("Navbar=>", loginCheck);
+ 
 
   return (
     <div className="flex flex-col w-[100%] h-[100%]   ">

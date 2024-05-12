@@ -50,9 +50,9 @@ function SignIn() {
         throw new Error(errorData.message);
       }
 
-      const token = await response.json();
-      console.log(token.data.password);
-      localStorage.setItem("token", token.data.password);
+      const UserData = await response.json();
+      console.log(UserData);
+      localStorage.setItem("token", JSON.stringify(UserData));
       setFormData({
         email: "",
         password: "",

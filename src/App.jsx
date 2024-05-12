@@ -47,20 +47,16 @@ import Setting from "./Profile/pages/Setting";
 import Logout from "./Profile/pages/Logout";
 import LoginContext from "./ContextAPI/LoginContext/LoginContext";
 import Page404 from "./Components/Page404";
+import ForgetPassword from "./Pages/ForgetPassword";
+import { io } from 'socket.io-client';
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
   const [user, setUser] = useState(false);
-  setTimeout(()=>{
-    console.log("Jani");
-    setUser(!user)
-    localStorage.removeItem('Login')
-    navigate("/signin");
-  },30000)
 
   return (
     <>
-      <LoginContext.Provider value={{ user, setUser }}>
+      <LoginContext.Provider value={{ user, setUser, io }}>
         <div className="bg-white text-black dark:bg-gray-700  dark:text-white">
           <BrowserRouter>
             <Routes>
@@ -95,6 +91,7 @@ function App() {
               </Route>
 
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgetpassword" element={<ForgetPassword />} />
               <Route path="/404" element={<Page404 />} />
               <Route path="/signin" element={<SignIn />} />
             </Routes>
