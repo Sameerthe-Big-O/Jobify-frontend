@@ -50,7 +50,6 @@ import Page404 from "./Components/Page404";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
-  const dispatch = useDispatch();
   const [user, setUser] = useState(false);
   setTimeout(()=>{
     console.log("Jani");
