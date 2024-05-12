@@ -97,7 +97,7 @@ function ChatPage() {
   // 	});
   // }
   return (
-    <div className="w-screen flex">
+    <div className="w-screen overflow-scroll flex">
       <div className="w-[25%] h-screen bg-secondary overflow-scroll">
         <div className="flex items-center my-8 mx-14">
           <div>
@@ -151,7 +151,7 @@ function ChatPage() {
           </div>
         </div>
       </div>
-      <div className="w-[50%] h-screen bg-white flex flex-col items-center">
+      <div className="w-[50%] h-screen overflow-scroll bg-white flex flex-col items-center">
         {messages?.receiver?.fullName && (
           <div className="w-[75%] bg-secondary h-[80px] my-14 rounded-full flex items-center px-14 py-2">
             <div className="cursor-pointer">

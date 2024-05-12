@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Dropdown from "../Components/Dropdown";
 import Button from "../Components/Button";
 import { FaPhoneVolume } from "react-icons/fa6";
@@ -17,40 +17,46 @@ import baglogo from "../assets/Images/Bug logo.svg";
 import { Link, NavLink } from "react-router-dom";
 import Buglogo from "../assets/Images/Bug logo.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginCheck } from "../feature/LoginSlice";
+import LoginContext from "../ContextAPI/LoginContext/LoginContext";
 
 function Navbar() {
   const [active, setActive] = useState(-1);
+  const [open2, setOpen2] = useState(false);
+
   const [open, setOpen] = useState(false);
-  const isLogedIn = useSelector(selectLoginCheck);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const {user,setUser}=useContext(LoginContext)
   const dispatch = useDispatch();
-  console.log(isLogedIn);
+  // console.log(isLogedIn);
   const routes = [
     {
       path: "/",
       name: "Home",
     },
     {
-      path: "/private/jobs",
+      path: "/jobs",
       name: "Find Job",
     },
     {
-      path: "/private/companies",
+      path: "/companies",
       name: "Companies",
     },
     {
-      path: "/private/dashboard",
+      path: "/dashboard",
       name: "Dashboard",
     },
     {
-      path: "/private/jobs",
+      path: "/jobs",
       name: "My Jobs",
     },
   ];
+
   const handleClick = (index) => {
     setActive(index); // Set activeIndex to the clicked item's index
-    setOpen(!open)
+    setOpen(!open);
   };
+  const loginCheck = localStorage.getItem("Login");
+  console.log("Navbar=>", loginCheck);
 
   return (
     <div className="flex flex-col w-[100%] h-[100%]   ">
@@ -59,21 +65,46 @@ function Navbar() {
           <div className="text-3xl font-inter font-medium">Jobify</div>
           <div className="w-full xmd:flex hidden">
             <ul className="flex justify-evenly w-full  items-center gap-6 font-inter  text-black">
-              <Link to={"/"}>
+              <NavLink
+                to={"/"}
+                className={({ isActive }) => {
+                  return isActive ? "bg-white text-sky-500" : "";
+                }}
+              >
                 <li className="hover:text-sky-500 cursor-pointer">Home</li>
-              </Link>
-              <Link to={"/jobs"}>
+              </NavLink>
+              <NavLink
+                to={"/jobs"}
+                className={({ isActive }) => {
+                  return isActive ? "bg-white text-sky-500" : "";
+                }}
+              >
                 <li className="hover:text-sky-500 cursor-pointer">Find Job</li>
-              </Link>
-              <Link to={"/companies"}>
+              </NavLink>
+              <NavLink
+                to={"/companies"}
+                className={({ isActive }) => {
+                  return isActive ? "bg-white text-sky-500" : "";
+                }}
+              >
                 <li className="hover:text-sky-500 cursor-pointer">Companies</li>
-              </Link>
-              <Link to={"/dashboard"}>
+              </NavLink>
+              <NavLink
+                to={"/dashboard"}
+                className={({ isActive }) => {
+                  return isActive ? "bg-white text-sky-500" : "";
+                }}
+              >
                 <li className="hover:text-sky-500 cursor-pointer">Dashboard</li>
-              </Link>
-              <Link to={"/jobs"}>
+              </NavLink>
+              <NavLink
+                to={"/jobs"}
+                className={({ isActive }) => {
+                  return isActive ? "bg-white text-sky-500" : "";
+                }}
+              >
                 <li className="hover:text-sky-500 cursor-pointer">My Job</li>
-              </Link>
+              </NavLink>
             </ul>
           </div>
         </div>
@@ -161,7 +192,7 @@ function Navbar() {
             </div>
           </div>
           <div className="hidden items-center gap-6 border p-1 w-full mr-2  bg-white rounded-md 6sm:flex">
-            <div>
+            <div className="z-10">
               <JobsDropdown />
             </div>
             <div>
@@ -191,8 +222,14 @@ function Navbar() {
             </div>
             <div className="w-fit">
               {/* {isLogedIn} */}
-              {isLogedIn ? (
-                <ProfileMenu />
+              {loginCheck ? (
+                <div
+                  onClick={() => {
+                    setUser(!user)
+                  }}
+                >
+                  <ProfileMenu />
+                </div>
               ) : (
                 <Link to={"/signin"}>
                   <Button

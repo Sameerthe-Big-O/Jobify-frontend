@@ -157,7 +157,7 @@ function JobPage() {
     },
   ];
   return (
-    <div className="xxl:container mx-auto ">
+    <div className="lg:container mx-auto ">
       <div className="bg-gray-200  px-8  py-6 text-2xl font-inter "> Find</div>
       {/* <div className="w-full flex items-center gap-3 px-4  my-4 border">
         <div className="w-full border h-full rounded-lg">

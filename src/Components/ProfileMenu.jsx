@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoginCheck, toggleLogin } from "../feature/LoginSlice";
+import LoginContext from "../ContextAPI/LoginContext/LoginContext";
+import { logout } from "../feature/authSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
+  const navigate=useNavigate()
   const [isOpen, setIsOpen] = useState(false);
-  const isLogedIn = useSelector(selectLoginCheck);
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  // const isLogedIn = useSelector(selectLoginCheck);
+  // const {logout}=useContext(LoginContext)
+  // useEffect(() => {
+  //   navigate('/')
+  //   // localStorage.clear();
+  // }, [isAuthenticated])
   const dispatch = useDispatch();
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
   };
 
   const handleLogoutClick = () => {
+    dispatch(logout())
     localStorage.removeItem('token');
-    console.log("Logout1=>",isLogedIn);
-    dispatch(toggleLogin())
-    console.log("Logout=>",isLogedIn);
+    localStorage.removeItem('Login')
     toggleDropdown()
+    navigate('/')
+    setIsOpen(!isOpen);
   };
+  
+  
+
+  
+  
  
 
   return (
-    <div className="relative inline-block z-50 text-left w-auto">
+    <div className="relative inline-block z-50 text-left w-10">
       <div>
         <button
           type="button"

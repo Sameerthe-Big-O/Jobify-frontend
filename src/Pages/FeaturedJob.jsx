@@ -158,7 +158,7 @@ function FeaturedJob() {
   ];
 
   return (
-    <div className="bg-[#e7f0fa] ">
+    <div className="bg-[#e7f0fa] lg:container mx-auto ">
       <div className="px-4 5sm:px-14 py-10 w-full container mx-auto">
         <div className="flex justify-between flex-col gap-4 5sm:flex-row  items-center">
           <div className="flex text-3xl gap-2">

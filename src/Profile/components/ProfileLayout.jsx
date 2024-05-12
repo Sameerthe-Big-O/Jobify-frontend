@@ -57,7 +57,7 @@ function ProfileLayout() {
   };
 
   return (
-    <div className="bg-gray-100 font-family-karla flex">
+    <div className="bg-gray-100 font-family-karla flex lg:container mx-auto">
       {/* Sidebar */}
       <aside className="relative bg-transparent h-[100vh] w-64 hidden 6sm:block shadow-xl">
         <div className="p-6 bg-[##3d68ff]">
