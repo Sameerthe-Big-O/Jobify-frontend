@@ -9,7 +9,7 @@ import Loading from "./Loading";
 
 function JobPage() {
   const [jobsData, setJobsData] = useState([]);
-  const [data,setData]=useState([])
+  const [data, setData] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [jobType, setJobType] = useState("");
   const [salaryRange, setSalaryRange] = useState(0);
@@ -30,7 +30,7 @@ function JobPage() {
         );
         const jobData = await jobResponse.json();
         const companyData = await companyResponse.json();
-        setData(jobData.data)
+        setData(jobData.data);
         setJobsData(jobData.data);
         setCompanies(companyData.data);
         setLoading(false);
@@ -42,28 +42,31 @@ function JobPage() {
     fetchData();
   }, [category, jobType, salaryRange]);
   function handleSearchClick() {
-    console.log("Search =>",search);
-    if (search === "") { setJobsData(data); return; }
-    else{
-      const filterBySearch = jobsData.filter((item) => {
-        console.log(item);
-          if ((item.title).toLowerCase()
-              .includes(search.toLowerCase())) { return item; }
-      })
+    console.log("Search =>", search);
+    if (search === "") {
+      setJobsData(data);
+      return;
+    } else {
+      const filterBySearch =
+        Array.isArray(jobsData) &&
+        jobsData.filter((item) => {
+          console.log(item);
+          if (item.title.toLowerCase().includes(search.toLowerCase())) {
+            return item;
+          }
+        });
       setJobsData(filterBySearch);
-      setSearch("")
+      setSearch("");
       // setJobsData(data)
     }
-    
-    
-}
+  }
   // const resetSearch = () => {
   //   setSearch(""); // Clear the search input
   //   fetchData(); // Restore the original full data set
   // };
   const findCompanyNameById = (companyId) => {
     const company = companies.filter((company) => company.id !== companyId);
-    console.log("Company ID=>",company);
+    console.log("Company ID=>", company);
     return company ? company[0].name : "Not Found";
   };
   const filteredJobs = jobsData.filter((job) =>
@@ -479,7 +482,7 @@ function JobPage() {
                 value={search}
                 className="py-2 px-2 outline-none  w-full"
                 placeholder="Job Title,Keyword"
-                onChange={(e)=>setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
           </div>
