@@ -25,7 +25,7 @@ function Navbar() {
 
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const {user,setUser}=useContext(LoginContext)
+  const {filter ,setFilter}=useContext(LoginContext)
   const dispatch = useDispatch();
   // console.log(isLogedIn);
   const routes = [
@@ -64,7 +64,7 @@ function Navbar() {
         <div className="flex  items-center gap-4 h-full justify-between  xmd:w-[70%]">
           <div className="text-3xl font-inter font-medium">Jobify</div>
           <div className="w-full xmd:flex hidden">
-            <ul className="flex justify-evenly w-full  items-center gap-6 font-inter  text-black">
+            <ul className="flex justify-evenly w-full  items-center gap-6 font-inter  text-black" onClick={()=>{setFilter(false)}}>
               <NavLink
                 to={"/"}
                 className={({ isActive }) => {
@@ -220,10 +220,11 @@ function Navbar() {
             <div className="xmd:flex hidden">
               <BiMessageRoundedDetail className="text-3xl text-white 5sm:flex hidden " />
             </div>
-            <div className="w-fit">
+            <div className="w-28">
               {/* {isLogedIn} */}
               {loginCheck ? (
                 <div
+                className="w-full "
                   onClick={() => {
                     setUser(!user)
                   }}

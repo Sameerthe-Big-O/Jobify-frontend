@@ -49,19 +49,25 @@ import LoginContext from "./ContextAPI/LoginContext/LoginContext";
 import Page404 from "./Components/Page404";
 import ForgetPassword from "./Pages/ForgetPassword";
 import { io } from 'socket.io-client';
+import { RxCrossCircled } from "react-icons/rx";
+import JobPostForm from "./Pages/JobPostForm";
+import JobDetail from "./Pages/JobDetail";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
   const [user, setUser] = useState(false);
+  const [filter, setFilter] = useState(false);
 
   return (
     <>
-      <LoginContext.Provider value={{ user, setUser, io }}>
-        <div className="bg-white text-black dark:bg-gray-700  dark:text-white">
+    
+      <LoginContext.Provider value={{ user, setUser, io,filter,setFilter }} >
+      
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route path="" element={<Home />} />
+                <Route path="jobdetail" element={<JobDetail />} />
                 <Route element={<PrivateRoute />}>
                   <Route path="jobs" element={<JobPage />} />
                   <Route path="companies" element={<CompanyPage />} />
@@ -70,6 +76,7 @@ function App() {
                     <Route path="dashboard" element={<Overview />} />
                     <Route path="applied-jobs" element={<AppliedJobs />} />
                     <Route path="fav-jobs" element={<FavJobs />} />
+                    <Route path="jobpost" element={<JobPostForm />} />
                     <Route path="job-alert" element={<JobAlerts />} />
                     <Route path="message" element={<Message />} />
                     <Route path="settings" element={<Setting />} />
@@ -96,7 +103,6 @@ function App() {
               <Route path="/signin" element={<SignIn />} />
             </Routes>
           </BrowserRouter>
-        </div>
       </LoginContext.Provider>
     </>
   );

@@ -19,7 +19,7 @@ const ProfileMenu = () => {
     setIsOpen(!isOpen);
   };
   const Data = JSON.parse(localStorage.getItem("token"))
-  console.log(Data);
+  console.log("=>Token",Data);
   const [userData, setUserData] = useState([Data]);
   console.log(userData);
   // console.log("Navbar=>", JSON.parse(Data));
@@ -31,10 +31,10 @@ const ProfileMenu = () => {
     navigate("/");
     setIsOpen(!isOpen);
   };
-  userData.map((data)=>(console.log(data.data.name)))
+  // userData.map((data)=>(console.log(data.data.name)))
 
   return (
-    <div className="relative inline-block z-50 text-left w-10">
+    <div className="relative inline-block z-50 text-left w-full">
       <div>
         <button
           type="button"
@@ -48,7 +48,7 @@ const ProfileMenu = () => {
           />
         </button>
         {userData.map((data,index)=>(
-          <div key={index}>{data.data.name}</div>
+          <div className="text-white font-inter text-xs" key={index}>{data.data.name}</div>
         ))}
       </div>
       {isOpen && (

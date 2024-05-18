@@ -16,7 +16,7 @@
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "axios": "^1.6.8",
-    "framer-motion": "^11.1.7",
+    "framer-motion": "^11.2.0",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
@@ -25,6 +25,7 @@
     "react-router-dom": "^6.22.3",
     "react-slick": "^0.30.2",
     "react-slideshow-image": "^4.3.1",
+    "react-toastify": "^10.0.5",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { RxCross1, RxDashboard } from "react-icons/rx";
 import { FiMenu } from "react-icons/fi";
@@ -10,10 +10,20 @@ import { HiOutlineBellAlert } from "react-icons/hi2";
 import { FiMessageSquare } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
-import { CiSearch,CiBookmark } from "react-icons/ci";
+import { CiSearch, CiBookmark } from "react-icons/ci";
 function ProfileLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState(-1);
+  const [isCompany, setIsCompany] = useState(false);
+
+  useEffect(() => {
+    // Example: Replace this with your actual logic to check if the user is a company
+    const user = JSON.parse(localStorage.getItem("token")); // Assuming user info is stored in local storage
+    console.log(user.data.role);
+    if (user && user.data.role === "Company") {
+      setIsCompany(true);
+    }
+  }, []);
   const routes = [
     {
       path: "/dashboard",
@@ -31,9 +41,9 @@ function ProfileLayout() {
       icon: <CiBookmark />,
     },
     {
-      path: "/job-alert",
-      name: "Job Alert",
-      icon: <HiOutlineBellAlert />,
+      path: isCompany ? "/jobpost" : "/job-alert",
+      name: isCompany ? "Job Post" : "Job Alert",
+      icon: isCompany ? <PiBagLight /> : <HiOutlineBellAlert />,
     },
     {
       path: "/message",

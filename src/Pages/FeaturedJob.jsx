@@ -174,7 +174,7 @@ function FeaturedJob() {
         <div className="grid xlg:grid-cols-4  lg:grid-cols-3 md:grid-cols-2  gap-4  mt-10">
           
           {jobs.slice(0,6).map((item,index) => (
-            <JobCard item={item} key={index}/>
+            <JobCard obj={item} key={index}/>
           ))}
         </div>
       </div>

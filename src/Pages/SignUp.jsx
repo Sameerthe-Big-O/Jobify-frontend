@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import { HiBuildingOffice2 } from "react-icons/hi2";
+import { HiBuildingOffice2, HiMiniBuildingOffice2 } from "react-icons/hi2";
 import { FaArrowRight } from "react-icons/fa6";
-import { PiBagSimpleBold } from "react-icons/pi";
+import { PiBagSimpleBold, PiHandbagSimpleBold } from "react-icons/pi";
 import { NavLink, useNavigate } from "react-router-dom";
 import CountUp from "react-countup";
 import axios from "axios";
@@ -14,6 +14,7 @@ function SignUp() {
   const navigate = useNavigate();
   const [alertMessage, setAlertMessage] = useState("");
   const [formData, setFormData] = useState({
+    role: "",
     name: "",
     email: "",
     password: "",
@@ -42,6 +43,7 @@ function SignUp() {
       console.log("Registration successful:", data);
       setAlertMessage("Registration successful!");
       setFormData({
+        role: "",
         name: "",
         email: "",
         password: "",
@@ -410,6 +412,42 @@ function SignUp() {
                 </div>
               </div>
               <div>
+                {/* <div className="flex justify-evenly py-5 h-fit gap-4">
+                  <div className="h-fit">
+                    <button className="flex w-auto items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg 5sm:px-8 4sm:px-4 xs:px-4 gap-2 sm:text-sm xs:text-xs">
+                     <FaRegUserCircle /> Candidate
+                    </button>
+                  </div>
+
+                  <div className="h-fiy">
+                    <button className="flex w-auto  items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg  5sm:px-8 4sm:px-4 px-4 gap-2 sm:text-sm xs:text-xs">
+                      <HiBuildingOffice2 />
+                      Company
+                    </button>
+                  </div>
+                </div> */}
+                <div className="flex justify-center">
+                  <div className="mb-5 mx-2 flex gap-2 items-center">
+                    <label className="block text-2xl text-gray-700">Role</label>
+                    <select
+                      name="role"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      value={formData.role}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select Role
+                      </option>
+                      <option value="User" className="flex cursor-pointer p-3">
+                        <PiHandbagSimpleBold  className="text-slate-950" /> Candidate
+                      </option>
+                      <option value="Company" className="flex cursor-pointer bg-slate-800 p-3">
+                        <HiMiniBuildingOffice2  className="text-slate-950"/> Company
+                      </option>
+                    </select>
+                  </div>
+                </div>
                 <div className="flex -mx-3">
                   <div className="w-full px-3 mb-5">
                     <label for="" className="text-xs font-semibold px-1">
@@ -467,7 +505,7 @@ function SignUp() {
                         <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                       </div>
                       <input
-                         type={showpass?"text":"password"}
+                        type={showpass ? "text" : "password"}
                         name="password"
                         className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-blue-500"
                         placeholder="************"

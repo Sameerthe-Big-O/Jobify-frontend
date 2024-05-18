@@ -36,12 +36,12 @@ function Home() {
                 applications every single day
               </p>
             </div>
-            <div className="flex md:flex-row sm:flex-col font-inter justify-start  md:gap-2 sm:gap-5 bg-white py-2 px-2 rounded-md md:w-fit 4sm:w-[70%]">
-              <div className="flex justify-start items-center  w-auto">
+            <div className="flex md:flex-row sm:flex-col font-inter justify-start  md:gap-2 sm:gap-5 bg-white py-2 px-2 rounded-md md:w-[70%] 4sm:w-[70%]">
+              <div className="flex justify-start items-center  w-full">
                 <div>
                   <CiSearch className="text-sky-500 text-4xl" />
                 </div>
-                <div className="w-auto">
+                <div className="w-full">
                   <input
                     type="text"
                     className="py-2 px-2  w-auto outline-none"
@@ -49,7 +49,7 @@ function Home() {
                   />
                 </div>
               </div>
-              <div className="flex justify-start items-center  w-full">
+              {/* <div className="flex justify-start items-center  w-full">
                 <div>
                   <CiLocationOn className="text-sky-500 text-4xl" />
                 </div>
@@ -60,7 +60,7 @@ function Home() {
                     placeholder="Job Title,Keyword"
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="w-full">
                 <Button
                   text={"Find Job Now"}
