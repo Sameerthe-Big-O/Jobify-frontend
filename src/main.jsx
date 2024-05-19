@@ -4,11 +4,17 @@ import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./app/store.js";
+import { SocketContext, socket } from "./ContextAPI/Soket.js";
 
+socket.connect("connect", () => {
+  console.log("user has connected with socker");
+});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <SocketContext.Provider value={socket}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </SocketContext.Provider>
   </React.StrictMode>
 );
