@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoginContext from "../ContextAPI/LoginContext/LoginContext";
 import { logout } from "../feature/authSlice";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
   const navigate = useNavigate();
@@ -24,12 +24,14 @@ const ProfileMenu = () => {
   console.log(userData);
   // console.log("Navbar=>", JSON.parse(Data));
   const handleLogoutClick = () => {
+   
     dispatch(logout());
     localStorage.removeItem("token");
     localStorage.removeItem("Login");
     toggleDropdown();
     navigate("/");
     setIsOpen(!isOpen);
+    
   };
   // userData.map((data)=>(console.log(data.data.name)))
 
@@ -59,20 +61,24 @@ const ProfileMenu = () => {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
+            <Link to={"/dashboard"}>
             <button
-              // onClick={() => handleItemClick("Dashboard")}
+              onClick={() => setIsOpen(!isOpen)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
               role="menuitem"
             >
               Dashboard
             </button>
+            </Link>
+            <Link to={"/settings"}>
             <button
-              // onClick={() => handleItemClick("Settings")}
+               onClick={() => setIsOpen(!isOpen)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
               role="menuitem"
             >
               Settings
             </button>
+            </Link>
             <button
               onClick={handleLogoutClick}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"

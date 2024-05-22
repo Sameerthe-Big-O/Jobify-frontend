@@ -1,8 +1,9 @@
 import React from 'react'
+import ProfileDetail from './ProfileDetail'
 
 function Logout() {
   return (
-    <div>Logout</div>
+    <div><ProfileDetail/></div>
   )
 }
 

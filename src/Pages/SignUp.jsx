@@ -8,6 +8,8 @@ import CountUp from "react-countup";
 import axios from "axios";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
   const [showpass, setShowpass] = useState(false);
@@ -19,16 +21,54 @@ function SignUp() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({
+    role: "",
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name,":",value);
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted!");
+    let formIsValid = true;
+    let newErrors = {};
+
+    // Validate form fields
+    if (!formData.role) {
+      toast.error("Role is required ")
+      newErrors.role = "Role is required";
+      formIsValid = false;
+    }
+    if (!formData.name) {
+      toast.error("Name is required ")
+      newErrors.name = "Name is required";
+      formIsValid = false;
+    }
+    if (!formData.email) {
+      toast.error("Email is required ")
+      newErrors.email = "Email is required";
+      formIsValid = false;
+    }
+    if (!formData.password) {
+      toast.error("Password is required ")
+      newErrors.password = "Password is required";
+      formIsValid = false;
+    }
+
+    // If form is not valid, set errors and return
+    if (!formIsValid) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:3000/api/auth/register", {
@@ -56,139 +96,8 @@ function SignUp() {
     console.log(formData);
   };
   return (
-    // <div className="w-[100%] md:h-[100vh] 5sm:h-[200vh] flex md:flex-row sm:flex-col sm:gap-6">
-    //   <div className="md:w-[50%] relative">
-    //     <div className="h-[100vh] bg-[url('./assets/Images/SignUp.jpg')] bg-center bg-no-repeat">
-    //       <div className="h-[100%] bg-slate-900/60 backdrop-brightness-50  ">
-    //         <div className="w-full justify-center xs:hidden sm:flex  gap-6  bottom-10 absolute">
-    //           <div className="flex flex-col items-center">
-    //             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
-    //               <PiBagSimpleBold className="text-white text-4xl  " />
-    //             </div>
-    //             <div className="text-white">
-    //               <CountUp start={0} end={175324}></CountUp>
-    //             </div>
-    //             <div className="text-xs  text-gray-400">Live Jobs</div>
-    //           </div>
-    //           <div className="flex flex-col items-center">
-    //             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
-    //               <HiBuildingOffice2 className="text-white text-4xl  " />{" "}
-    //             </div>
-    //             <div className="text-white">
-    //               <CountUp start={0} end={97354}></CountUp>
-    //             </div>
-    //             <div className="text-xs  text-gray-400">Companies</div>
-    //           </div>
-    //           <div className="flex flex-col items-center">
-    //             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
-    //               <PiBagSimpleBold className="text-white text-4xl  " />
-    //             </div>
-    //             <div className="text-white">
-    //               <CountUp start={0} end={7532}></CountUp>
-    //             </div>
-    //             <div className="text-xs  text-gray-400">New Jobs</div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <div className="w-[100%] md:w-[50%] h-[100vh] lg:px-12 md:px-6 xs:px-4 align-items-center  flex flex-col justify-around">
-    //     <div>
-    //       <div className="flex items-center font-bold font-serif text-2xl gap-2">
-    //         <PiBagSimpleBold className="text-sky-700" />
-    //         Jobify
-    //       </div>
-    //     </div>
-    //     <div className="flex flex-col gap-2">
-    //       <div className="flex flex-col justify-center items-start ">
-    //         <div className=" 4sm:text-3xl xs:text-2xl">Create Account</div>
-    //         <div className="text-gray-400 4sm:text-base xs:text-xs">
-    //           Already have account ?{" "}
-    //           <span className="text-sky-500">
-    //             <NavLink to={"/signin"}>login</NavLink>
-    //           </span>
-    //         </div>
-    //       </div>
-    //       <div className="w-[100%] flex flex-col items-center bg-gray-200 rounded-lg gap-2 py-2 ">
-    //         <div className="flex justify-center text-gray-500 4sm:text-base xs:text-xs">
-    //           CREATE ACCOUNT AS A{" "}
-    //         </div>
-    //         <div className="flex gap-4">
-    //           <div className="">
-    //             <button className="flex items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg 5sm:px-8 4sm:px-4 xs:px-4 gap-2 sm:text-sm xs:text-xs">
-    //               <FaRegUserCircle /> Candidate
-    //             </button>
-    //           </div>
-    //           <div>
-    //             <button className="flex items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg  5sm:px-8 4sm:px-4 px-4 gap-2 sm:text-sm xs:text-xs">
-    //               <HiBuildingOffice2 />
-    //               Employey
-    //             </button>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <form onSubmit={handleSubmit}>
-    //         <div className="flex flex-col gap-4">
-    //           <div className="w-[100%] flex justify-between gap-2">
-    //             <input
-    //               type="text"
-    //               name="name"
-    //               className=" border py-2 px-2 w-[100%] rounded-lg"
-    //               placeholder="Full Name"
-    //               value={formData.username}
-    //               onChange={handleInputChange}
-    //             />
-    //             {/* <input
-    //             type="text"
-    //             className="border py-2 px-2 w-[50%] rounded-lg"
-    //             placeholder="Username"
-    //           /> */}
-    //           </div>
-    //           <div>
-    //             <input
-    //               type="email"
-    //               name="email"
-    //               className=" border py-2 px-2 w-[100%] rounded-lg "
-    //               placeholder="Email"
-    //               value={formData.email}
-    //               onChange={handleInputChange}
-    //             />
-    //           </div>
-    //           <div>
-    //             <input
-    //               type="password"
-    //               name="password"
-    //               className=" border py-2 px-2 w-[100%] rounded-lg  "
-    //               placeholder="Password"
-    //               value={formData.password}
-    //               onChange={handleInputChange}
-    //             />
-    //           </div>
-    //           {/* <div>
-    //           <input
-    //             type="password"
-    //             className=" border py-2 px-2 w-[100%] rounded-lg  "
-    //             placeholder="Confrim Password"
-    //           />
-    //         </div> */}
-    //           {/* <div className="4sm:text-base xs:text-xs">
-    //             <input type="checkbox" /> Read And Agree with your
-    //             <span className="text-sky-300"> {""}Term of Service</span>
-    //           </div> */}
-    //           <div className="border py-2 px-2 w-[100%] rounded-md flex justify-center bg-[#0a65cc]">
-    //             <button
-    //               type="submit"
-    //               className="flex items-center text-white gap-4"
-    //             >
-    //               Create Account <FaArrowRight />
-    //             </button>
-    //           </div>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
     <>
+    <ToastContainer />
       <div className="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
         <div className="bg-gray-100 lg:container mx-auto text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
           <div className="md:flex w-full">
@@ -412,20 +321,6 @@ function SignUp() {
                 </div>
               </div>
               <div>
-                {/* <div className="flex justify-evenly py-5 h-fit gap-4">
-                  <div className="h-fit">
-                    <button className="flex w-auto items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg 5sm:px-8 4sm:px-4 xs:px-4 gap-2 sm:text-sm xs:text-xs">
-                     <FaRegUserCircle /> Candidate
-                    </button>
-                  </div>
-
-                  <div className="h-fiy">
-                    <button className="flex w-auto  items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg  5sm:px-8 4sm:px-4 px-4 gap-2 sm:text-sm xs:text-xs">
-                      <HiBuildingOffice2 />
-                      Company
-                    </button>
-                  </div>
-                </div> */}
                 <div className="flex justify-center">
                   <div className="mb-5 mx-2 flex gap-2 items-center">
                     <label className="block text-2xl text-gray-700">Role</label>
@@ -436,14 +331,19 @@ function SignUp() {
                       onChange={handleInputChange}
                       required
                     >
-                      <option value="" disabled>
+                      <option value="" >
                         Select Role
                       </option>
                       <option value="User" className="flex cursor-pointer p-3">
-                        <PiHandbagSimpleBold  className="text-slate-950" /> Candidate
+                        <PiHandbagSimpleBold className="text-slate-950" />{" "}
+                        Candidate
                       </option>
-                      <option value="Company" className="flex cursor-pointer bg-slate-800 p-3">
-                        <HiMiniBuildingOffice2  className="text-slate-950"/> Company
+                      <option
+                        value="Company"
+                        className="flex cursor-pointer  p-3"
+                      >
+                        <HiMiniBuildingOffice2 className="text-slate-950" />{" "}
+                        Company
                       </option>
                     </select>
                   </div>
@@ -464,6 +364,7 @@ function SignUp() {
                         name="name"
                         value={formData.username}
                         onChange={handleInputChange}
+                        required
                       />
                     </div>
                   </div>
@@ -491,6 +392,7 @@ function SignUp() {
                         placeholder="Umar@example.com"
                         value={formData.email}
                         onChange={handleInputChange}
+                        required
                       />
                     </div>
                   </div>
@@ -511,6 +413,7 @@ function SignUp() {
                         placeholder="************"
                         value={formData.password}
                         onChange={handleInputChange}
+                        required
                       />
                       <div
                         className="absolute right-6 flex items-center top-0 bottom-0"
@@ -536,6 +439,11 @@ function SignUp() {
                       REGISTER NOW
                     </button>
                   </div>
+                  {alertMessage && (
+                    <div className="mt-4 text-center text-green-500">
+                      {alertMessage}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -564,3 +472,152 @@ function SignUp() {
 }
 
 export default SignUp;
+
+{
+  /* <div className="flex justify-evenly py-5 h-fit gap-4">
+                  <div className="h-fit">
+                    <button className="flex w-auto items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg 5sm:px-8 4sm:px-4 xs:px-4 gap-2 sm:text-sm xs:text-xs">
+                     <FaRegUserCircle /> Candidate
+                    </button>
+                  </div>
+
+                  <div className="h-fiy">
+                    <button className="flex w-auto  items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg  5sm:px-8 4sm:px-4 px-4 gap-2 sm:text-sm xs:text-xs">
+                      <HiBuildingOffice2 />
+                      Company
+                    </button>
+                  </div>
+                </div> */
+}
+// <div className="w-[100%] md:h-[100vh] 5sm:h-[200vh] flex md:flex-row sm:flex-col sm:gap-6">
+//   <div className="md:w-[50%] relative">
+//     <div className="h-[100vh] bg-[url('./assets/Images/SignUp.jpg')] bg-center bg-no-repeat">
+//       <div className="h-[100%] bg-slate-900/60 backdrop-brightness-50  ">
+//         <div className="w-full justify-center xs:hidden sm:flex  gap-6  bottom-10 absolute">
+//           <div className="flex flex-col items-center">
+//             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
+//               <PiBagSimpleBold className="text-white text-4xl  " />
+//             </div>
+//             <div className="text-white">
+//               <CountUp start={0} end={175324}></CountUp>
+//             </div>
+//             <div className="text-xs  text-gray-400">Live Jobs</div>
+//           </div>
+//           <div className="flex flex-col items-center">
+//             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
+//               <HiBuildingOffice2 className="text-white text-4xl  " />{" "}
+//             </div>
+//             <div className="text-white">
+//               <CountUp start={0} end={97354}></CountUp>
+//             </div>
+//             <div className="text-xs  text-gray-400">Companies</div>
+//           </div>
+//           <div className="flex flex-col items-center">
+//             <div className="px-1 py-1 rounded-md backdrop-blur-sm bg-white/20">
+//               <PiBagSimpleBold className="text-white text-4xl  " />
+//             </div>
+//             <div className="text-white">
+//               <CountUp start={0} end={7532}></CountUp>
+//             </div>
+//             <div className="text-xs  text-gray-400">New Jobs</div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="w-[100%] md:w-[50%] h-[100vh] lg:px-12 md:px-6 xs:px-4 align-items-center  flex flex-col justify-around">
+//     <div>
+//       <div className="flex items-center font-bold font-serif text-2xl gap-2">
+//         <PiBagSimpleBold className="text-sky-700" />
+//         Jobify
+//       </div>
+//     </div>
+//     <div className="flex flex-col gap-2">
+//       <div className="flex flex-col justify-center items-start ">
+//         <div className=" 4sm:text-3xl xs:text-2xl">Create Account</div>
+//         <div className="text-gray-400 4sm:text-base xs:text-xs">
+//           Already have account ?{" "}
+//           <span className="text-sky-500">
+//             <NavLink to={"/signin"}>login</NavLink>
+//           </span>
+//         </div>
+//       </div>
+//       <div className="w-[100%] flex flex-col items-center bg-gray-200 rounded-lg gap-2 py-2 ">
+//         <div className="flex justify-center text-gray-500 4sm:text-base xs:text-xs">
+//           CREATE ACCOUNT AS A{" "}
+//         </div>
+//         <div className="flex gap-4">
+//           <div className="">
+//             <button className="flex items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg 5sm:px-8 4sm:px-4 xs:px-4 gap-2 sm:text-sm xs:text-xs">
+//               <FaRegUserCircle /> Candidate
+//             </button>
+//           </div>
+//           <div>
+//             <button className="flex items-center bg-[#191e58ec] text-white py-2 lg:px-12 md:px-6 rounded-lg  5sm:px-8 4sm:px-4 px-4 gap-2 sm:text-sm xs:text-xs">
+//               <HiBuildingOffice2 />
+//               Employey
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//       <form onSubmit={handleSubmit}>
+//         <div className="flex flex-col gap-4">
+//           <div className="w-[100%] flex justify-between gap-2">
+//             <input
+//               type="text"
+//               name="name"
+//               className=" border py-2 px-2 w-[100%] rounded-lg"
+//               placeholder="Full Name"
+//               value={formData.username}
+//               onChange={handleInputChange}
+//             />
+//             {/* <input
+//             type="text"
+//             className="border py-2 px-2 w-[50%] rounded-lg"
+//             placeholder="Username"
+//           /> */}
+//           </div>
+//           <div>
+//             <input
+//               type="email"
+//               name="email"
+//               className=" border py-2 px-2 w-[100%] rounded-lg "
+//               placeholder="Email"
+//               value={formData.email}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+//           <div>
+//             <input
+//               type="password"
+//               name="password"
+//               className=" border py-2 px-2 w-[100%] rounded-lg  "
+//               placeholder="Password"
+//               value={formData.password}
+//               onChange={handleInputChange}
+//             />
+//           </div>
+//           {/* <div>
+//           <input
+//             type="password"
+//             className=" border py-2 px-2 w-[100%] rounded-lg  "
+//             placeholder="Confrim Password"
+//           />
+//         </div> */}
+//           {/* <div className="4sm:text-base xs:text-xs">
+//             <input type="checkbox" /> Read And Agree with your
+//             <span className="text-sky-300"> {""}Term of Service</span>
+//           </div> */}
+//           <div className="border py-2 px-2 w-[100%] rounded-md flex justify-center bg-[#0a65cc]">
+//             <button
+//               type="submit"
+//               className="flex items-center text-white gap-4"
+//             >
+//               Create Account <FaArrowRight />
+//             </button>
+//           </div>
+//         </div>
+//       </form>
+//     </div>
+//   </div>
+// </div>

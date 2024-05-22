@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from 'react'
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-function Overview() {
-  const [jobs, setData] = useState([]);
+
+function AllApplications() {
+    const [jobs, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,7 @@ function Overview() {
   };
   return (
     <div>
+         <div>
       <table className="w-full bg-white  overflow-scroll">
         <thead className="bg-gray-800 text-white">
           <tr>
@@ -62,47 +64,44 @@ function Overview() {
             </th>
           </tr>
         </thead>
-        <tbody className="text-gray-700">
-          {jobs.length > 0 &&
-            jobs.map(
-              (
-                {
-                  _id,
-                  title,
-                  status,
-                  jobType,
-                  dueDate,
-                  createdAt,
-                  applications,
+       <tbody className="text-gray-700">
+       {applicants.length > 0 &&
+            applicants.map((application, index) => {
+              const {
+                applicant: {
+                  email,
+                  name,
+                  userProfile: { picture },
                 },
-                rowIndex
-              ) => {
-                return (
-                  <tr
-                    key={rowIndex}
-                    className=" border-b-[1.5px] border-[#DFE0EB] 
- 
-                    "
-                    onClick={() => hadleClikc(_id, title)}
-                  >
-                    <td className="md:p-4 p-3 ">{title}</td>
-                    <td className="md:p-4 p-3 ">
-                      {status === "true" ? "true" : "false"}
-                    </td>
-                    <td className="md:p-4 pt-3 ">{jobType}</td>
-                    <td className="md:p-4 p-3 ">{dueDate.substring(1, 10)}</td>
-                    <td className="md:p-4 p-3 ">
-                      {createdAt.substring(1, 10)}
-                    </td>
-                    <td className="md:p-4 p-3 ">{applications.length}</td>
-                  </tr>
-                );
-              }
-            )}
+                status,
+                createdAt,
+              } = application;
+
+              console.log(name, email, picture, status, createdAt);
+
+              return (
+                <tr key={index}>
+                  <td className="flex items-center space-x-4 py-3 px-4">
+                    <img
+                      src={Avatar}
+                      // alt={`${name}'s profile`}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <span>{name}</span>
+                  </td>
+                  <td className="py-3 px-4">{email}</td>
+                  <td className="py-3 px-4">{status}</td>
+                  <td className="py-3 px-4">
+                    {new Date(createdAt).toLocaleDateString()}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
-  );
+    </div>
+  )
 }
 
-export default Overview;
+export default AllApplications

@@ -25,7 +25,7 @@ function Navbar() {
 
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const {filter ,setFilter}=useContext(LoginContext)
+  const { filter, setFilter } = useContext(LoginContext);
   const dispatch = useDispatch();
   // console.log(isLogedIn);
   const routes = [
@@ -56,7 +56,6 @@ function Navbar() {
     setOpen(!open);
   };
   const loginCheck = localStorage.getItem("Login");
- 
 
   return (
     <div className="flex flex-col w-[100%] h-[100%]   ">
@@ -64,7 +63,12 @@ function Navbar() {
         <div className="flex  items-center gap-4 h-full justify-between  xmd:w-[70%]">
           <div className="text-3xl font-inter font-medium">Jobify</div>
           <div className="w-full xmd:flex hidden">
-            <ul className="flex justify-evenly w-full  items-center gap-6 font-inter  text-black" onClick={()=>{setFilter(false)}}>
+            <ul
+              className="flex justify-evenly w-full  items-center gap-6 font-inter  text-black"
+              onClick={() => {
+                setFilter(false);
+              }}
+            >
               <NavLink
                 to={"/"}
                 className={({ isActive }) => {
@@ -123,7 +127,7 @@ function Navbar() {
         <div
           className={`absolute top-10 ${
             open ? "flex" : "hidden"
-          } left-0 z-50 w-full`}
+          } left-0 z-50 w-full xmd:hidden`}
         >
           <div className="w-full fixed  h-[50vh] p-4">
             <ul className="flex flex-col bg-white w-full justify-start p-4  items-start gap-6 font-inter  text-black">
@@ -224,9 +228,9 @@ function Navbar() {
               {/* {isLogedIn} */}
               {loginCheck ? (
                 <div
-                className="w-full "
+                  className="w-full "
                   onClick={() => {
-                    setUser(!user)
+                    setUser(!user);
                   }}
                 >
                   <ProfileMenu />

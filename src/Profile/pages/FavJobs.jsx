@@ -1,47 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Avatar from '../../assets/Images/companylogo.jpg';
+
 
 function FavJobs() {
+  const [applicants, setApplicants] = useState([]);
+  const location = useLocation();
+  const id = location?.state?.id;
+  const title = location?.state?.title;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const companyId = JSON.parse(token);
+          console.log("Company ID:", companyId.data.id);
+          const response = await fetch(
+            `http://localhost:3000/api/job/applicants/${id}`
+          );
+          const { data } = await response.json();
+          const { applications } = data[0];
+          console.log('Applications:', applications);
+          setApplicants(applications);
+        } catch (error) {
+          console.error("Failed to fetch data", error);
+        }
+      }
+    };
+    fetchData();
+  }, [id]);
+
   return (
-    <div className="flex items-center rounded shadow-md overflow-hidden max-w-xl relative bg-gray-200 text-gray-800">
-      <div className="self-stretch flex items-center px-3 flex-shrink-0 bg-gray-300 dark:text-blue-600">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="h-8 w-8"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-      </div>
-      <div className="p-4 flex-1">
-        <h3 className="text-xl font-bold">Error</h3>
-        <p className="text-sm dark:text-gray-600">
-          The password is incorrect. Do you need to
-          <a href="#" rel="referrer noopener" className="underline">
-            recover your password?
-          </a>
-        </p>
-      </div>
-      <button className="absolute top-2 right-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="h-4 w-4 p-2 rounded cursor-pointer"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-      </button>
+    <div>
+      <h1 className="mb-3 font-bold font-mono">{
+       `Here are the details about `+title
+}</h1>
+      <table className="w-full bg-white overflow-scroll">
+        <thead className="bg-gray-800 text-white">
+          <tr>
+            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+              User
+            </th>
+            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+              Email
+            </th>
+            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+              Status
+            </th>
+            <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
+              Applied At
+            </th>
+          </tr>
+        </thead>
+        <tbody className="text-gray-700">
+          {applicants.length > 0 &&
+            applicants.map((application, index) => {
+              const {
+                applicant: {
+                  email,
+                  name,
+                  userProfile: { picture },
+                },
+                status,
+                createdAt,
+              } = application;
+
+              console.log(name, email, picture, status, createdAt);
+
+              return (
+                <tr key={index}>
+                  <td className="flex items-center space-x-4 py-3 px-4">
+                    <img
+                      src={Avatar}
+                      // alt={`${name}'s profile`}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <span>{name}</span>
+                  </td>
+                  <td className="py-3 px-4">{email}</td>
+                  <td className="py-3 px-4">{status}</td>
+                  <td className="py-3 px-4">
+                    {new Date(createdAt).toLocaleDateString()}
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </div>
   );
 }

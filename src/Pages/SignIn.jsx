@@ -51,7 +51,7 @@ function SignIn() {
       }
 
       const UserData = await response.json();
-      console.log(UserData);
+      console.log("SignIn=>",UserData);
       localStorage.setItem("token", JSON.stringify(UserData));
       setFormData({
         email: "",

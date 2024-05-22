@@ -10,6 +10,10 @@ function JobPostForm() {
   const [benefitValue, setBenefitValue] = useState("");
   const [requiredSkillValue, setRequiredSkillValue] = useState("");
   const [niceToHaveValue, setNiceToHaveValue] = useState("");
+  const [profileExists, setProfileExists] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [companyProfile, setCompanyProfile] = useState(null);
+  const [data, setData] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -30,22 +34,64 @@ function JobPostForm() {
     city: "",
     companyId: "664789e697ecd60ed27b8be9",
   });
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const companyId = JSON.parse(token);
-        console.log("Company Id=>", companyId.data.id);
+        console.log("Com ID=>", companyId.data.id);
         setFormData((prev) => ({
           ...prev,
           companyId: companyId.data.id,
         }));
-        toast.success("ID Save successfully!");
+
+        // const fetchData = async () => {
+        //   try {
+        //     const jobResponse = await fetch("http://localhost:3000/api/company");
+        //     const jobData = await jobResponse.json();
+            
+            
+        //     setData(jobData.data);
+        //     setLoading(false);
+
+        //     // Filter data based on companyId
+        //     const filteredData = jobData.data.filter(item => item.id === companyId.data.id);
+        //     console.log("Filter=>", filteredData);
+        //     if (filteredData.length > 0) {
+        //       setProfileExists(true);
+        //       setCompanyProfile(filteredData[0]);
+        //     } else {
+        //       setProfileExists(false);
+        //     }
+        //   } catch (error) {
+        //     console.error("Error fetching data:", error);
+        //   }
+        // };
+
+        // fetchData();
       } catch (error) {
         console.error("Failed to parse token", error);
       }
     }
   }, []);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     try {
+  //       const companyId = JSON.parse(token);
+  //       console.log("Company Id=>", companyId.data.id);
+  //       setFormData((prev) => ({
+  //         ...prev,
+  //         companyId: companyId.data.id,
+  //       }));
+  //       toast.success("ID Save successfully!");
+  //     } catch (error) {
+  //       console.error("Failed to parse token", error);
+  //     }
+  //   }
+  // }, []);
 
   const addTag = (e, type) => {
     if (e.keyCode === 13 && e.target.value) {

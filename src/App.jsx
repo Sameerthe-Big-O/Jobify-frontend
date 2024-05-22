@@ -53,12 +53,31 @@ import { RxCrossCircled } from "react-icons/rx";
 import JobPostForm from "./Pages/JobPostForm";
 import JobDetail from "./Pages/JobDetail";
 import Zoom from "./Pages/Zoom";
+import ComDetail from "./Pages/ComDetail";
+import UserProfileForm from "./Profile/pages/UserProfileForm";
+import { toast } from "react-toastify";
+import AllApplications from "./Profile/pages/AllApplications";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
   const [user, setUser] = useState(false);
   const [filter, setFilter] = useState(false);
-
+  const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const companyId = JSON.parse(token);
+        console.log("App User Role=>", companyId.data.role);
+        setUserData(companyId.data.role);
+        // console.log("USER ID=>", formData);
+        toast.success("ID Save successfully!");
+      } catch (error) {
+        console.error("Failed to parse token", error);
+      }
+    }
+  }, []);
+  console.log(userData);
   return (
     <>
       <LoginContext.Provider value={{ user, setUser, io, filter, setFilter }}>
@@ -67,18 +86,21 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
               <Route path="jobdetail" element={<JobDetail />} />
+              <Route path="companydetail" element={<ComDetail />} />
               <Route element={<PrivateRoute />}>
                 <Route path="jobs" element={<JobPage />} />
                 <Route path="companies" element={<CompanyPage />} />
                 <Route path="chat" element={<ChatPage />} />
                 <Route element={<ProfileLayout />}>
                   <Route path="dashboard" element={<Overview />} />
-                  <Route path="applied-jobs" element={<AppliedJobs />} />
-                  <Route path="fav-jobs" element={<FavJobs />} />
+                  <Route path="allapplication" element={<AllApplications />} />
+                  <Route path="jobcandidate" element={<FavJobs />} />
                   <Route path="jobpost" element={<JobPostForm />} />
                   <Route path="job-alert" element={<JobAlerts />} />
                   <Route path="message" element={<Message />} />
                   <Route path="settings" element={<Setting />} />
+                  <Route path="userprofile" element={<UserProfileForm />} />
+
                   <Route path="logout" element={<Logout />} />
                 </Route>
               </Route>

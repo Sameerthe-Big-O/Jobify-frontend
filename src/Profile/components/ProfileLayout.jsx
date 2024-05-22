@@ -15,15 +15,28 @@ function ProfileLayout() {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const [isCompany, setIsCompany] = useState(false);
-
   useEffect(() => {
-    // Example: Replace this with your actual logic to check if the user is a company
-    const user = JSON.parse(localStorage.getItem("token")); // Assuming user info is stored in local storage
-    console.log(user.data.role);
-    if (user && user.data.role === "Company") {
-      setIsCompany(true);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const user = JSON.parse(token);
+        const role = user?.data?.role; // Use optional chaining to avoid errors if data is undefined
+
+        console.log(role); // Log the role for debugging
+
+        if (role === "Company") {
+          setIsCompany(true);
+        }
+      } catch (error) {
+        console.error("Error parsing token from localStorage:", error);
+      }
+    } else {
+      console.error("Token not found in localStorage");
     }
-  }, []);
+  }, []); 
+
+ 
   const routes = [
     {
       path: "/dashboard",
@@ -31,13 +44,13 @@ function ProfileLayout() {
       icon: <LuLayers />,
     },
     {
-      path: "/applied-jobs",
-      name: "Applied Jobs",
+      path: "/allapplication",
+      name: "All Applications",
       icon: <PiBagLight />,
     },
     {
-      path: "/fav-jobs",
-      name: "Favorite Jobs",
+      path: "/jobcandidate",
+      name: "Job Candidates",
       icon: <CiBookmark />,
     },
     {
@@ -51,8 +64,8 @@ function ProfileLayout() {
       icon: <FiMessageSquare />,
     },
     {
-      path: "/settings",
-      name: "Settings",
+      path: isCompany ? "/settings" : "/userprofile",
+      name: isCompany ? "Setting" : "Profile",
       icon: <IoSettingsOutline />,
     },
     {
@@ -65,7 +78,7 @@ function ProfileLayout() {
     setActive(index); // Set activeIndex to the clicked item's index
     setIsOpen(!open);
   };
-
+  console.log("Company =>",isCompany);
   return (
     <div className="bg-gray-100 font-family-karla flex lg:container mx-auto">
       {/* Sidebar */}

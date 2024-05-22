@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Components/Button";
 import JobCard from "../Components/JobCard";
 import { Link } from "react-router-dom";
+
 
 function FeaturedJob() {
   const jobs = [
@@ -156,7 +157,34 @@ function FeaturedJob() {
       location_name: "Denver",
     },
   ];
-
+  const [loading, setLoading] = useState(false);
+  const [jobsData, setJobsData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const jobResponse = await fetch(
+          `http://localhost:3000/api/job/search`
+        );
+        // const companyResponse = await fetch(
+        //   "http://localhost:3000/api/company"
+        // );
+        const jobData = await jobResponse.json();
+        // console.log("JobData=>1",jobData);
+        // const companyData = await companyResponse.json();
+        // setData(jobData.data);
+        setJobsData(jobData.data);
+        // console.log("JobData=>2",jobsData);
+        // setCompanies(companyData.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="bg-[#e7f0fa] lg:container mx-auto ">
       <div className="px-4 5sm:px-14 py-10 w-full container mx-auto">
@@ -164,7 +192,7 @@ function FeaturedJob() {
           <div className="flex text-3xl gap-2">
             Top <span className="text-sky-600">Featured Job</span>
           </div>
-          <Link to={'private/jobs'}><div>
+          <Link to={'/jobs'}><div>
             <Button
               text={"View All"}
               className="border border-sky-600 bg-transparent text-[#426fe9] font-bold w-fit px-8 rounded-[3px] hover:bg-white   py-[8px]"
@@ -173,7 +201,7 @@ function FeaturedJob() {
         </div>
         <div className="grid xlg:grid-cols-4  lg:grid-cols-3 md:grid-cols-2  gap-4  mt-10">
           
-          {jobs.slice(0,6).map((item,index) => (
+          {jobsData.slice(0,6).map((item,index) => (
             <JobCard obj={item} key={index}/>
           ))}
         </div>
