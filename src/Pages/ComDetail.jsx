@@ -17,8 +17,8 @@ function ComDetail() {
         setData(jobData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
-      }finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -38,8 +38,8 @@ function ComDetail() {
       <div className="py-6 px-8 bg-gray-200  text-xl font-inter">
         Job Detail
       </div>
-      {Filter.map((ele) => (
-        <div>
+      {Filter.map((ele, index) => (
+        <div key={index}>
           <div className="flex p-10">
             <div className="w-[70%] flex gap-5">
               <div className="w-fit">

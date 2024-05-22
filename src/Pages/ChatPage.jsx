@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Input from "../Components/Input";
 import Img1 from "../assets/Images/avatar.svg";
 import tutorialsdev from "../assets/Images/tutorialsdev.png";
@@ -91,7 +91,6 @@ function ChatPage() {
     fetchIntialChats();
   }, [UserEmail, socket]);
 
-  console.log(messages);
   return (
     <div className="w-screen flex">
       <div className="w-[25%] h-screen bg-secondary overflow-scroll">

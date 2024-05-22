@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Avatar from '../../assets/Images/companylogo.jpg';
-
+import Avatar from "../../assets/Images/companylogo.jpg";
 
 function FavJobs() {
   const [applicants, setApplicants] = useState([]);
@@ -21,7 +20,7 @@ function FavJobs() {
           );
           const { data } = await response.json();
           const { applications } = data[0];
-          console.log('Applications:', applications);
+          console.log("Applications:", applications);
           setApplicants(applications);
         } catch (error) {
           console.error("Failed to fetch data", error);
@@ -33,9 +32,9 @@ function FavJobs() {
 
   return (
     <div>
-      <h1 className="mb-3 font-bold font-mono">{
-       `Here are the details about `+title
-}</h1>
+      <h1 className="mb-3 font-bold font-mono">
+        {`Here are the details about ` + title}
+      </h1>
       <table className="w-full bg-white overflow-scroll">
         <thead className="bg-gray-800 text-white">
           <tr>

@@ -12,8 +12,9 @@ function Overview() {
         try {
           const companyId = JSON.parse(token);
           console.log("DASDASD Id=>", companyId.data.id);
+          //*ye tuny change kya huwa???? esi wja sy errora rha
           const response = await fetch(
-            `http://localhost:3000/api/company/applicants/${companyId.data.id}`
+            `http://localhost:3000/api/company/jobs/${companyId.data.id}`
           );
           const { data } = await response.json();
           console.log(data);
@@ -33,7 +34,7 @@ function Overview() {
     navigate("/jobcandidate/", {
       state: {
         id: id,
-        title:title
+        title: title,
       },
     });
   };
@@ -90,9 +91,11 @@ function Overview() {
                       {status === "true" ? "true" : "false"}
                     </td>
                     <td className="md:p-4 pt-3 ">{jobType}</td>
-                    <td className="md:p-4 p-3 ">{dueDate.substring(1, 10)}</td>
                     <td className="md:p-4 p-3 ">
-                      {createdAt.substring(1, 10)}
+                      {dueDate !== undefined && dueDate.substring(1, 10)}
+                    </td>
+                    <td className="md:p-4 p-3 ">
+                      {createdAt !== undefined && createdAt.substring(1, 10)}
                     </td>
                     <td className="md:p-4 p-3 ">{applications.length}</td>
                   </tr>

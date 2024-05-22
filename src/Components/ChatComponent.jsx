@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "./Chat.css"; // Import CSS for animations
+import "./Chat.css";
 import { useContext } from "react";
 import { SocketContext } from "../ContextAPI/Soket";
 
