@@ -23,9 +23,10 @@ function JobDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jobResponse = await fetch("http://localhost:3000/api/job/search");
+        const jobResponse = await fetch(`http://localhost:3000/api/job/${ID}`);
         const jobData = await jobResponse.json();
-        setData(jobData.data);
+        console.log("Job Detail",jobData);
+        setData([jobData.data]); 
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -35,9 +36,9 @@ function JobDetail() {
     fetchData();
   }, []);
 
-  const Filter = data.filter((item) => item.id === ID);
+  // const Filter = data.filter((item) => item.id === ID);
 
-  console.log("ID are =>", Filter);
+  // console.log("ID are =>", Filter);
 
   const handleResumeChange = (event) => {
     const file = event.target.files[0];
@@ -116,21 +117,21 @@ function JobDetail() {
       <div className="py-6 px-8 bg-gray-200 text-xl font-inter">
         Job Detail
       </div>
-      {Filter.map((ele) => (
-        <div key={ele.id}>
+      {data.map((ele) => (
+        <div key={ele?.id}>
           <div className="flex p-10">
             <div className="w-[70%] flex gap-5">
               <div className="w-fit">
                 <img src={logo} alt="" className="w-40 rounded-lg" />
               </div>
               <div className="flex flex-col justify-center gap-4 w-full">
-                <div className="text-3xl font-inter font-bold">{ele.title}</div>
+                <div className="text-3xl font-inter font-bold">{ele?.title}</div>
                 <div className="flex gap-3">
                   <div className="text-lg font-light font-inter">
-                    {ele.country}
+                    {ele?.country}
                   </div>
                   <div className="bg-green-100 flex text-green-700 w-fit py-2 px-4 text-xs rounded-sm font-bold font-inter">
-                    {ele.jobLevel}
+                    {ele?.jobLevel}
                   </div>
                 </div>
               </div>
@@ -164,7 +165,7 @@ function JobDetail() {
           <hr />
           <div className="p-10">
             <div className="text-3xl font-medium font-inter">Description</div>
-            <div className="py-5">{ele.description}</div>
+            <div className="py-5">{ele?.description}</div>
           </div>
         </div>
       ))}

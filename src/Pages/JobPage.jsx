@@ -526,7 +526,6 @@ function JobPage() {
               <JobCard
                 key={index}
                 obj={job}
-                company={findCompanyNameById(job.company)}
               />
             ))}
             {/* {jobsData

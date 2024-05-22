@@ -114,7 +114,7 @@ function Setting() {
       const response = await fetch(
         "http://localhost:3000/api/company/profile",
         {
-          method: profileExists ? "PUT" : "POST",
+          method: profileExists ? "PATCH" : "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -161,7 +161,7 @@ function Setting() {
   return (
     <>
       {profileExists ? (
-        <section className="pt-16 bg-blueGray-50">
+        <section className="bg-blueGray-50">
           <div className="w-full lg:w-full px-4 mx-auto">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
               <div className="px-6">

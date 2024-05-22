@@ -6,6 +6,7 @@ import Button from "./Button";
 
 function JobCard({ obj, company }) {
   const navigate = useNavigate();
+  console.log(obj);
 
   const handleID = (ID) => {
     navigate("/jobdetail", { state: { id: ID } });

@@ -29,15 +29,15 @@ function AllApplications() {
     fetchData();
   }, []);
 
-  const hadleClikc = (id, title) => {
-    console.log(id);
-    navigate("/jobcandidate/", {
-      state: {
-        id: id,
-        title:title
-      },
-    });
-  };
+  // const hadleClikc = (id, title) => {
+  //   console.log(id);
+  //   navigate("/jobcandidate/", {
+  //     state: {
+  //       id: id,
+  //       title:title
+  //     },
+  //   });
+  
   return (
     <div>
          <div>
@@ -64,7 +64,7 @@ function AllApplications() {
             </th>
           </tr>
         </thead>
-       <tbody className="text-gray-700">
+       {/* <tbody className="text-gray-700">
        {applicants.length > 0 &&
             applicants.map((application, index) => {
               const {
@@ -84,7 +84,6 @@ function AllApplications() {
                   <td className="flex items-center space-x-4 py-3 px-4">
                     <img
                       src={Avatar}
-                      // alt={`${name}'s profile`}
                       className="w-10 h-10 rounded-full"
                     />
                     <span>{name}</span>
@@ -97,7 +96,7 @@ function AllApplications() {
                 </tr>
               );
             })}
-        </tbody>
+        </tbody> */}
       </table>
     </div>
     </div>
