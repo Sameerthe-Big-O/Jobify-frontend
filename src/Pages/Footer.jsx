@@ -7,10 +7,14 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
+import bot from "../assets/Images/bot.jpg";
+import { useNavigate } from "react-router-dom";
 
 function Footer() {
+  const navigate=useNavigate()
   return (
-    <div className=" bg-[#18191c] mt-10 font-inter">
+    <div className=" bg-[#18191c] mt-10 font-inter relative ">
+      <div className="absolute z-10 right-10 cursor-pointer" onClick={()=>{navigate("/bot")}}><img src={bot} alt="" className="w-16 rounded-full"/></div>
       <div className="">
         <div className="flex xmd:flex-row sm:flex-col gap-8  xmd:justify-between w-[100%] xmd:px-16 sm:px-4 py-6 lg:container mx-auto ">
           <div className="flex xmd:w-[40%] md:flex-row sm:flex-col   gap-2 items-center ">

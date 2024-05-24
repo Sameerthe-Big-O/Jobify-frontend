@@ -89,71 +89,77 @@ function App() {
   console.log(userData);
   return (
     <>
-      <LoginContext.Provider value={{ user, setUser, io, filter, setFilter }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="" element={<Home />} />
-
-              <Route path="/bot" element={<UserAssiment />} />
-              <Route path="/companyBot" element={<CompanyAssiment />} />
-              <Route path="/applications" element={<Applications />} />
-              <Route path="jobdetail" element={<JobDetail />} />
-              <Route path="companydetail" element={<ComDetail />} />
-              <Route element={<PrivateRoute />}>
-                <Route path="jobs" element={<JobPage />} />
-                <Route path="companies" element={<CompanyPage />} />
-                <Route path="candidates" element={<CandidatePage />} />
-                <Route path="chat" element={<ChatPage />} />
+      
+        <LoginContext.Provider value={{ user, setUser, io, filter, setFilter }}>
+        
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route path="" element={<Home />} />
                 <Route path="jobdetail" element={<JobDetail />} />
                 <Route path="companydetail" element={<ComDetail />} />
-                <Route element={<ProfileLayout />}>
-                  <Route path="dashboard" element={<Overview />} />
-                  <Route path="companydashbaord" element={<Overview />} />
-                  <Route path="userdashbaord" element={<UserOverview />} />
-                  <Route path="allapplication" element={<AllApplications />} />
-                  <Route path="jobcandidate" element={<FavJobs />} />
-                  <Route path="alluserjob" element={<Userjobs />} />
-                  <Route path="interview" element={<Zoom />} />
-                  <Route path="botassit" element={<Chat />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="jobs" element={<JobPage />} />
+                  <Route path="bot" element={<UserAssiment />} />
+                  <Route path="companyBot" element={<CompanyAssiment />} />
+                  <Route path="applications" element={<Applications />} />
+                  <Route path="companies" element={<CompanyPage />} />
+                  <Route path="candidates" element={<CandidatePage />} />
+                  <Route path="chat" element={<ChatPage />} />
+                  <Route path="jobdetail" element={<JobDetail />} />
+                  <Route path="companydetail" element={<ComDetail />} />
+                  <Route element={<ProfileLayout />}>
+                    <Route path="dashboard" element={<Overview />} />
+                    <Route path="companydashbaord" element={<Overview />} />
+                    <Route path="userdashbaord" element={<UserOverview />} />
+                    <Route
+                      path="allapplication"
+                      element={<AllApplications />}
+                    />
+                    <Route path="jobcandidate" element={<FavJobs />} />
+                    <Route path="alluserjob" element={<Userjobs />} />
+                    <Route path="interview" element={<Zoom />} />
+                    <Route path="botassit" element={<Chat />} />
 
-                  <Route
-                    path="userapplications"
-                    element={<UserApplication />}
-                  />
-                  <Route path="jobpost" element={<JobPostForm />} />
-                  <Route path="job-alert" element={<JobAlerts />} />
-                  <Route path="message" element={<Message />} />
-                  <Route path="settings" element={<Setting />} />
-                  <Route path="user" element={<ProfileDetail />} />
-                  <Route path="userprofile" element={<UserProfileForm />} />
-                  <Route path="logout" element={<Logout />} />
+                    <Route
+                      path="userapplications"
+                      element={<UserApplication />}
+                    />
+                    <Route path="jobpost" element={<JobPostForm />} />
+                    <Route path="job-alert" element={<JobAlerts />} />
+                    <Route path="message" element={<Message />} />
+                    <Route path="settings" element={<Setting />} />
+                    <Route path="user" element={<ProfileDetail />} />
+                    <Route path="userprofile" element={<UserProfileForm />} />
+                    <Route path="logout" element={<Logout />} />
+                  </Route>
                 </Route>
               </Route>
-            </Route>
 
-            <Route element={<AdminPrivate />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route path="country" element={<Country />} />
-                <Route path="auth" element={<Dashboard />} />
-                <Route path="applications" element={<Order />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="jobcategory" element={<JobCategories />} />
-                <Route path="jobrole" element={<JobRoles />} />
-                <Route path="candidate" element={<Candidate />} />
-                <Route path="jobs" element={<Jobs />} />
-                <Route path="company" element={<Company />} />
+              <Route element={<AdminPrivate />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route path="country" element={<Country />} />
+                  <Route path="auth" element={<Dashboard />} />
+                  <Route path="applications" element={<Order />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="jobcategory" element={<JobCategories />} />
+                  <Route path="jobrole" element={<JobRoles />} />
+                  <Route path="candidate" element={<Candidate />} />
+                  <Route path="jobs" element={<Jobs />} />
+                  <Route path="company" element={<Company />} />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgetpassword" element={<ForgetPassword />} />
-            <Route path="/404" element={<Page404 />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="interview" element={<Zoom />} />
-          </Routes>
-        </BrowserRouter>
-      </LoginContext.Provider>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgetpassword" element={<ForgetPassword />} />
+              <Route path="/404" element={<Page404 />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="interview" element={<Zoom />} />
+            </Routes>
+          </BrowserRouter>
+          
+        </LoginContext.Provider>
+      
     </>
   );
 }

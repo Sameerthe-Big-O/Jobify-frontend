@@ -18,6 +18,7 @@ import { Link, NavLink } from "react-router-dom";
 import Buglogo from "../assets/Images/Bug logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import LoginContext from "../ContextAPI/LoginContext/LoginContext";
+import bot from "../assets/Images/bot.jpg";
 
 function Navbar() {
   const [active, setActive] = useState(-1);
@@ -115,6 +116,9 @@ function Navbar() {
               >
                 <li className="hover:text-sky-500 cursor-pointer">My Job</li>
               </NavLink>
+              <NavLink to={"/bot"}>
+              <div className=" cursor-pointer"><img src={bot} alt="" className="w-10 rounded-full"/></div>
+              </NavLink>
             </ul>
           </div>
         </div>
@@ -181,12 +185,15 @@ function Navbar() {
                 </li>
               </Link>
               <hr className="w-full" />
-              <Link to={"/chat"} className="bg-sky-500 rounded-md w-full p-2">
+              <NavLink to={"/bot"} className={"w-full rounded-lg"}>
+              <div className=" bg-blue-500 rounded-lg w-full cursor-pointer"><img src={bot} alt="" className="w-10 rounded-full"/></div>
+              </NavLink>
+              {/* <Link to={"/chat"} className="bg-sky-500 rounded-md w-full p-2">
                 <li className="text-white items-center flex gap-2 cursor-pointer">
                   <CgProfile className="text-3xl text-white" />
                   Profile
                 </li>
-              </Link>
+              </Link> */}
             </ul>
           </div>
         </div>
