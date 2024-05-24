@@ -41,8 +41,8 @@ function Dashboard() {
       <div className='grid lg:grid-cols-3 xmd:grid-cols-2 px-2 gap-2'>
         <CardInfo title="Companies" count={company.length} />
         <CardInfo title="Jobs" count={jobs.length} />
-        <CardInfo title="Users" count={allUser.data.length} />
-        <CardInfo title="Applications" count={applications.data.length} />
+        <CardInfo title="Users" count={allUser?.data?.length} />
+        <CardInfo title="Applications" count={applications?.data?.length} />
       </div>
     </div>
   );

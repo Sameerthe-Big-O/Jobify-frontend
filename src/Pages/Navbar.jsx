@@ -28,8 +28,8 @@ function Navbar() {
   const { filter, setFilter } = useContext(LoginContext);
   const loginCheck = localStorage.getItem("Login");
   const userCheck = JSON.parse(localStorage.getItem("token"));
-  console.log(userCheck.data.role);
-  const UserCheck = userCheck.data.role;
+  console.log(userCheck?.data?.role);
+  const UserCheck = userCheck?.data?.role;
   const dispatch = useDispatch();
   console.log(UserCheck);
   const routes = [
@@ -38,14 +38,14 @@ function Navbar() {
       name: "Home",
     },
     {
-      path: userCheck.data.role === "Company" ? "/candidate" : "/jobs",
-      name: userCheck.data.role === "Company" ? "Find Candidate" : "Find Job",
+      path: UserCheck == "Company" ? "/candidates" : "/jobs",
+      name: UserCheck == "Company" ? "Find Candidate" : "Find Job",
     },
-    userCheck.data.role === 'User' || userCheck.data.role === 'Admin' &&
-    {
-      path: "/companies",
-      name: "Companies",
-    },
+    // UserCheck == "User" ||
+    //   (UserCheck == "Admin" && {
+    //     path: "/companies",
+    //     name: "Companies",
+    //   }),
     {
       path: "/dashboard",
       name: "Dashboard",
@@ -82,12 +82,14 @@ function Navbar() {
                 <li className="hover:text-sky-500 cursor-pointer">Home</li>
               </NavLink>
               <NavLink
-                to={"/jobs"}
+                to={UserCheck == "Company" ? " /candidates" : "/jobs"}
                 className={({ isActive }) => {
                   return isActive ? "bg-white text-sky-500" : "";
                 }}
               >
-                <li className="hover:text-sky-500 cursor-pointer">Find Job</li>
+                <li className="hover:text-sky-500 cursor-pointer">
+                  {UserCheck == "Company" ? "Find Candidate" : "Find Job"}
+                </li>
               </NavLink>
               <NavLink
                 to={"/companies"}

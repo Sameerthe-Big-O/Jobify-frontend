@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TagInput from "../components/TagInput";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 function Setting() {
   const [formData, setFormData] = useState({
@@ -160,6 +160,7 @@ function Setting() {
 
   return (
     <>
+    <ToastContainer />
       {profileExists ? (
         <section className="bg-blueGray-50">
           <div className="w-full lg:w-full px-4 mx-auto">

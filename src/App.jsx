@@ -39,7 +39,6 @@ import ChatPage from "./Pages/ChatPage";
 import PrivateRoute from "./Components/PrivateRoute";
 import ProfileLayout from "./Profile/components/ProfileLayout";
 import Overview from "./Profile/pages/Overview";
-import AppliedJobs from "./Profile/pages/AppliedJobs";
 import FavJobs from "./Profile/pages/FavJobs";
 import JobAlerts from "./Profile/pages/JobAlerts";
 import Message from "./Profile/pages/Message";
@@ -66,6 +65,7 @@ import Userjobs from "./Profile/pages/Userjobs";
 import UserOverview from "./Profile/pages/UserOverview";
 import AdminPrivate from "./Components/AdminPrivate";
 import Chat from "./Profile/pages/CompanyAssismentBot";
+import CandidatePage from "./Pages/CandidatePage";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
@@ -103,6 +103,7 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="jobs" element={<JobPage />} />
                 <Route path="companies" element={<CompanyPage />} />
+                <Route path="candidates" element={<CandidatePage />} />
                 <Route path="chat" element={<ChatPage />} />
                 <Route path="jobdetail" element={<JobDetail />} />
                 <Route path="companydetail" element={<ComDetail />} />
@@ -126,24 +127,23 @@ function App() {
                   <Route path="settings" element={<Setting />} />
                   <Route path="user" element={<ProfileDetail />} />
                   <Route path="userprofile" element={<UserProfileForm />} />
-
                   <Route path="logout" element={<Logout />} />
                 </Route>
               </Route>
             </Route>
-            
+
             <Route element={<AdminPrivate />}>
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="country" element={<Country />} />
-              <Route path="auth" element={<Dashboard />} />
-              <Route path="applications" element={<Order />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="jobcategory" element={<JobCategories />} />
-              <Route path="jobrole" element={<JobRoles />} />
-              <Route path="candidate" element={<Candidate />} />
-              <Route path="jobs" element={<Jobs />} />
-              <Route path="company" element={<Company />} />
-            </Route>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="country" element={<Country />} />
+                <Route path="auth" element={<Dashboard />} />
+                <Route path="applications" element={<Order />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="jobcategory" element={<JobCategories />} />
+                <Route path="jobrole" element={<JobRoles />} />
+                <Route path="candidate" element={<Candidate />} />
+                <Route path="jobs" element={<Jobs />} />
+                <Route path="company" element={<Company />} />
+              </Route>
             </Route>
 
             <Route path="/signup" element={<SignUp />} />

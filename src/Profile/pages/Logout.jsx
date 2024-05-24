@@ -18,7 +18,7 @@ function Logout() {
   };
 
   return (
-    <div onClick={()=>{handleLogoutClick}}>Logout</div>
+    <div onClick={()=>handleLogoutClick}>Logout</div>
   )
 }
 
