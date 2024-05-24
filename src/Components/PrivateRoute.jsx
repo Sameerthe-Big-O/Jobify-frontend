@@ -10,7 +10,8 @@ function PrivateRoute() {
 //   const {user,login,logout}=useContext(LoginContext)
 // const { isAuthenticated } = useSelector((state) => state.auth);
   const LoginCheck = localStorage.getItem("Login");
-  console.log("Private Route=>",LoginCheck);
+  const LoginData = JSON.parse(localStorage.getItem("token"))
+  console.log("Private Route=>",LoginData.data.role);
  return (
     <>
     {LoginCheck ? <Outlet/> : <div onClick={()=>{navigate('/signin')}}><Navigate to={'/signin'}/></div>}

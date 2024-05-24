@@ -34,24 +34,23 @@ function ProfileLayout() {
     } else {
       console.error("Token not found in localStorage");
     }
-  }, []); 
+  }, []);
 
- 
   const routes = [
     {
-      path: "/dashboard",
-      name: "Overview",
+      path: isCompany ?"/companydashbaord":"userdashbaord",
+      name: isCompany ? "Company Overview" : "User Overview",
       icon: <LuLayers />,
     },
     {
-      path: "/allapplication",
-      name: "All Applications",
+      path: isCompany ? "/allapplication":"/userapplications",
+      name: isCompany ? "All Applications":"User Applicaions",
       icon: <PiBagLight />,
     },
     {
-      path: "/jobcandidate",
-      name: "Job Candidates",
-      icon: <CiBookmark />,
+      path: isCompany?"/jobcandidate":"/alluserjob",
+      name: isCompany ?"Job Candidates":"User Job",
+      icon:<CiBookmark />,
     },
     {
       path: isCompany ? "/jobpost" : "/job-alert",
@@ -78,7 +77,7 @@ function ProfileLayout() {
     setActive(index); // Set activeIndex to the clicked item's index
     setIsOpen(!open);
   };
-  console.log("Company =>",isCompany);
+  console.log("Company =>", isCompany);
   return (
     <div className="bg-gray-100 font-family-karla flex lg:container mx-auto">
       {/* Sidebar */}

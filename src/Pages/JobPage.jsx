@@ -29,11 +29,11 @@ function JobPage() {
           "http://localhost:3000/api/company"
         );
         const jobData = await jobResponse.json();
-        console.log("JobData=>1",jobData);
+        // console.log("JobData=>1",jobData);
         const companyData = await companyResponse.json();
         setData(jobData.data);
         setJobsData(jobData.data);
-        console.log("JobData=>2",jobsData);
+        // console.log("JobData=>2",jobsData);
         setCompanies(companyData.data);
         setLoading(false);
       } catch (error) {
@@ -43,6 +43,23 @@ function JobPage() {
     };
     fetchData();
   }, [category, jobType, salaryRange]);
+
+  useEffect(() => {
+    if (search == "") {
+      setJobsData(data);
+      return;
+    } else {
+      console.log("Else=>", jobsData);
+      const filterItem = jobsData?.filter((item) => {
+        return item.title.toLowerCase().includes(search.toLowerCase());
+        // console.log("Filter=>",item?.title?.toLowerCase()?.includes(search?.toLowerCase()))
+      });
+      console.log("FilterItem=>", filterItem);
+      setJobsData(filterItem);
+    }
+  }, [search, jobsData]);
+  // console.log("Filter",jobsData);
+
   function handleSearchClick() {
     console.log("Search =>", search);
     if (search === "") {
@@ -262,6 +279,7 @@ function JobPage() {
       setCategory(value);
     }
   };
+  // console.log("Job Page",jobsData.title);
 
   return (
     <>
@@ -523,10 +541,7 @@ function JobPage() {
         <div>
           <div className="grid xlg:grid-cols-4  lg:grid-cols-3 md:grid-cols-2  gap-4 px-6  mt-10">
             {jobsData.map((job, index) => (
-              <JobCard
-                key={index}
-                obj={job}
-              />
+              <JobCard key={index} obj={job} />
             ))}
             {/* {jobsData
               .filter((val) => {

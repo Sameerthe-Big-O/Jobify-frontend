@@ -1,9 +1,45 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useEffect } from "react";
+import { SocketContext } from "../../ContextAPI/Soket";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ProfileDetail() {
+  const navigate =useNavigate()
+  const location = useLocation();
+  const id = location?.state?.id;
+  console.log(id);
+  const socket = useContext(SocketContext);
+
+  const [userData, setUserData] = useState([]);
   const [activeTab, setActiveTab] = useState("profile");
   const [activeSubTab, setActiveSubTab] = useState("review");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/user/userProfile/${id}`
+        );
+        const profileData = await response.json();
+        setUserData([profileData]);
+        const { data } = profileData;
+        const { name, userProfile } = data[0];
+        console.log("PD", name, userProfile);
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const handleUserConvo = (email) => {
+  navigate("/message")
+    const token = JSON.parse(localStorage.getItem("token"));
+    if (socket.connected) {
+      socket.emit("checkRoom", email, token.data.email);
+    } else {
+      console.error("Socket is not connected.");
+    }
+  };
   const tabClasses = (tab) =>
     `inline-block p-4 border-b-2 rounded-t-lg ${
       activeTab === tab
@@ -17,6 +53,7 @@ function ProfileDetail() {
         ? "bg-purple-600 text-white dark:bg-purple-500"
         : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
     }`;
+  console.log("Nmae", userData[0]?.data[0]?.email);
 
   return (
     <>
@@ -71,25 +108,42 @@ function ProfileDetail() {
             aria-labelledby="profile-tab"
           >
             <div className="bg-gray-100">
-              <div className="container mx-auto py-8">
-                <div className="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
-                  <div className="col-span-4 sm:col-span-3">
+              <div className="container mx-auto ">
+                <div className="grid grid-cols-8 6sm:grid-cols-12 gap-6 ">
+                  <div className="col-span-12 xmd:col-span-6">
                     <div className="bg-white shadow rounded-lg p-6">
                       <div className="flex flex-col items-center">
                         <img
-                          src="https://randomuser.me/api/portraits/men/94.jpg"
+                          src={userData[0]?.data[0]?.userProfile[0]?.picture}
                           className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                         />
 
-                        <h1 className="text-xl font-bold">John Doe</h1>
+                        <h1 className="text-xl font-bold">
+                          {userData[0]?.data[0]?.name}
+                        </h1>
                         <p className="text-gray-700">Software Developer</p>
-                        <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                          <a
-                            href="#"
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                          >
-                            Contact
-                          </a>
+                        <pre>
+                          <strong>Phone Number </strong>:{" "}
+                          {userData[0]?.data[0]?.userProfile[0]?.phoneNumber}
+                        </pre>
+                        <pre>
+                          <strong>Educations </strong>:{" "}
+                          {userData[0]?.data[0]?.userProfile[0]?.education}
+                        </pre>
+                        <pre>
+                          <strong>Gender </strong>:{" "}
+                          {userData[0]?.data[0]?.userProfile[0]?.gender}
+                        </pre>
+
+                        <div
+                          className="mt-6 flex flex-wrap items-center px-2 py-2 rounded-lg font-inter gap-4 
+                          bg-red-50
+                        justify-center"
+                          onClick={() =>
+                            handleUserConvo(userData[0]?.data[0]?.email)
+                          }
+                        >
+                          Contact
                           <a
                             href="#"
                             className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded"
@@ -104,26 +158,20 @@ function ProfileDetail() {
                           Skills
                         </span>
                         <ul>
-                          <li className="mb-2">JavaScript</li>
-                          <li className="mb-2">React</li>
-                          <li className="mb-2">Node.js</li>
-                          <li className="mb-2">HTML/CSS</li>
-                          <li className="mb-2">Tailwind Css</li>
+                          {userData[0]?.data[0]?.userProfile[0]?.skills.map(
+                            (item) => (
+                              <li className="mb-2">{item}</li>
+                            )
+                          )}
                         </ul>
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-4 sm:col-span-9">
+                  <div className="col-span-12 xmd:col-span-6">
                     <div className="bg-white shadow rounded-lg p-6">
                       <h2 className="text-xl font-bold mb-4">About Me</h2>
                       <p className="text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed finibus est vitae tortor ullamcorper, ut vestibulum
-                        velit convallis. Aenean posuere risus non velit egestas
-                        suscipit. Nunc finibus vel ante id euismod. Vestibulum
-                        ante ipsum primis in faucibus orci luctus et ultrices
-                        posuere cubilia Curae; Aliquam erat volutpat. Nulla
-                        vulputate pharetra tellus, in luctus risus rhoncus id.
+                        {userData[0]?.data[0]?.userProfile[0]?.about}
                       </p>
 
                       <h3 className="font-semibold text-center mt-3 -mb-2">
@@ -220,7 +268,10 @@ function ProfileDetail() {
                       <h2 className="text-xl font-bold mt-6 mb-4">
                         Experience
                       </h2>
-                      <div className="mb-6">
+                      <div>
+                        {userData[0]?.data[0]?.userProfile[0]?.experience}
+                      </div>
+                      {/* <div className="mb-6">
                         <div className="flex justify-between flex-wrap gap-2 w-full">
                           <span className="text-gray-700 font-bold">
                             Web Developer
@@ -276,7 +327,7 @@ function ProfileDetail() {
                           vestibulum velit convallis. Aenean posuere risus non
                           velit egestas suscipit.
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

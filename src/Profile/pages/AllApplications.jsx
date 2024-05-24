@@ -6,6 +6,7 @@ function AllApplications() {
   const [jobs, setData] = useState([]);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -52,14 +53,24 @@ function AllApplications() {
         return "border-gray-500 text-gray-500";
     }
   };
-  // const hadleClikc = (id, title) => {
-  //   console.log(id);
-  //   navigate("/jobcandidate/", {
-  //     state: {
-  //       id: id,
-  //       title:title
-  //     },
-  //   });
+
+  const handleStatusChange = async (id, newStatus) => {
+    seStatus(true)
+    try {
+      const response = await fetch(`http://localhost:3000/api/application/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      console.log(await response.json());
+    } catch (error) {
+      console.error("Error updating status", error);
+    }
+  };
+  
+
 
   return (
     <div>
@@ -68,16 +79,19 @@ function AllApplications() {
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className=" text-left py-3 px-4 uppercase font-semibold text-sm">
+                Job
+              </th>
+              <th className=" text-left py-3 px-4 uppercase font-semibold text-sm">
                 Applicant
               </th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
                 status
               </th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                Job Type
+                Applied Date
               </th>
               <th className="text-left py-3 px-4 uppercase font-semibold text-sm">
-                Due Date
+                Email
               </th>
             </tr>
           </thead>
@@ -91,21 +105,26 @@ function AllApplications() {
                     status,
                     userId,
                     appliedDate,
+                    _id,
                     applicant: {
                       email,
                       name,
-                      userprofile: { picture },
+                      // userprofile: { picture },
                     },
                   } = application;
+                  console.log(status, userId, appliedDate, email, name, _id);
+
                   const statusColor = getStatusColor(status);
                   return (
                     <tr
                       key={index}
-                      onClick={() => handleClick(userId)}
+                      //*id alrady pass kar rha hoon bss tyjhy ye receiver karni aur use profile fetch kari ok
+                      // onClick={() => handleClick(userId)}
                       style={{
                         cursor: "pointer",
                       }}
                     >
+                      <td className="py-3 px-4">{title}</td>
                       <td className="flex items-center space-x-4 py-3 px-4">
                         <img
                           src={Avatar}
@@ -115,10 +134,20 @@ function AllApplications() {
                         <span>{name}</span>
                       </td>
                       <td>
-                        <div
-                          className={`py-3 px-4 ${statusColor} rounded-full`}
-                        >
-                          {status}
+                      <div className={`py-3 px-4 ${statusColor} rounded-full outline-none`}>
+                          <select
+                            name="Status"
+                            className="outline-none"
+                            value={status}
+                            onClick={()=>{}}
+                            onChange={(e) => handleStatusChange(_id, e.target.value)}
+                          >
+                            <option value="Hired">Hired</option>
+                            <option value="Shortlist">Shortlist</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Pending">Pending</option>
+                          </select>
                         </div>
                       </td>
                       <td className="py-3 px-4">

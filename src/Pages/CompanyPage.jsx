@@ -12,20 +12,20 @@ function CompanyPage() {
   const { filter, setFilter } = useContext(LoginContext);
   console.log("Filter Value=>", filter);
   const [data, setData] = useState([]);
+  const [companyData, setCompanyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     // API call function
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:3000/api/company"); // Replace with your API URL
-        // if (!response.ok) {
-        //   throw new Error("Network response was not ok");
-        // }
         const result = await response.json();
         console.log("Company =>1", result);
-        setData(result);
+        setData(result.data);
+        setCompanyData(result.data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -34,8 +34,23 @@ function CompanyPage() {
     };
 
     fetchData();
-  }, []); // Empty dependency array means this effect runs once after the initial render
-
+  }, []);
+  console.log("Company =>2", companyData);
+   // Empty dependency array means this effect runs once after the initial render
+  useEffect(() => {
+    if (search == "") {
+      setData(companyData);
+      return;
+    } else {
+      console.log("Else=>", data.data);
+      const filterItem = data?.filter((item) => {
+        return item.name.toLowerCase().includes(search.toLowerCase());
+      });
+      console.log("FilterItem=>", filterItem);
+      setData(filterItem);
+    }
+  }, [search, data]);
+ 
   if (loading) {
     return (
       <div>
@@ -218,7 +233,7 @@ function CompanyPage() {
     }
   };
   console.log("indusrt ", industry);
-  console.log("Company =>2", data.data);
+  console.log("Data=>",data);
   return (
     <>
       {filter && (
@@ -422,10 +437,12 @@ function CompanyPage() {
                   onFocus={true}
                   className="py-2 px-2 outline-none    w-full"
                   placeholder="Company Title,Keyword"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
             </div>
-            <div className="flex justify-start items-center border rounded-lg  w-full">
+            {/* <div className="flex justify-start items-center border rounded-lg  w-full">
               <div>
                 <CiLocationOn className="text-sky-500 text-4xl" />
               </div>
@@ -436,7 +453,7 @@ function CompanyPage() {
                   placeholder="Search Location"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="w-full flex gap-2 6sm:flex-row flex-col">
               <div
                 className="w-[100%]"
@@ -458,7 +475,7 @@ function CompanyPage() {
           </div>
           <div>
             <div className="grid xlg:grid-cols-4  lg:grid-cols-3 md:grid-cols-2  gap-4 px-6  mt-10">
-              {data.data.map((item, index) => (
+              {data?.map((item, index) => (
                 <div className="cursor-pointer read-only:true" key={index}>
                   <CompanyCard item={item} />
                 </div>

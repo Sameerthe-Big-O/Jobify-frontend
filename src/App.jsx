@@ -57,6 +57,11 @@ import ComDetail from "./Pages/ComDetail";
 import UserProfileForm from "./Profile/pages/UserProfileForm";
 import { toast } from "react-toastify";
 import AllApplications from "./Profile/pages/AllApplications";
+import ProfileDetail from "./Profile/pages/ProfileDetail";
+import UserApplication from "./Profile/pages/UserApplication";
+import Userjobs from "./Profile/pages/Userjobs";
+import UserOverview from "./Profile/pages/UserOverview";
+import AdminPrivate from "./Components/AdminPrivate";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
@@ -85,27 +90,37 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
-              <Route path="jobdetail" element={<JobDetail />} />
-              <Route path="companydetail" element={<ComDetail />} />
+
               <Route element={<PrivateRoute />}>
                 <Route path="jobs" element={<JobPage />} />
                 <Route path="companies" element={<CompanyPage />} />
                 <Route path="chat" element={<ChatPage />} />
+                <Route path="jobdetail" element={<JobDetail />} />
+                <Route path="companydetail" element={<ComDetail />} />
                 <Route element={<ProfileLayout />}>
                   <Route path="dashboard" element={<Overview />} />
+                  <Route path="companydashbaord" element={<Overview />} />
+                  <Route path="userdashbaord" element={<UserOverview />} />
                   <Route path="allapplication" element={<AllApplications />} />
                   <Route path="jobcandidate" element={<FavJobs />} />
+                  <Route path="alluserjob" element={<Userjobs />} />
+                  <Route
+                    path="userapplications"
+                    element={<UserApplication />}
+                  />
                   <Route path="jobpost" element={<JobPostForm />} />
                   <Route path="job-alert" element={<JobAlerts />} />
                   <Route path="message" element={<Message />} />
                   <Route path="settings" element={<Setting />} />
+                  <Route path="user" element={<ProfileDetail />} />
                   <Route path="userprofile" element={<UserProfileForm />} />
 
                   <Route path="logout" element={<Logout />} />
                 </Route>
               </Route>
             </Route>
-
+            
+            <Route element={<AdminPrivate />}>
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="country" element={<Country />} />
               <Route path="auth" element={<Dashboard />} />
@@ -116,6 +131,7 @@ function App() {
               <Route path="candidate" element={<Candidate />} />
               <Route path="jobs" element={<Jobs />} />
               <Route path="company" element={<Company />} />
+            </Route>
             </Route>
 
             <Route path="/signup" element={<SignUp />} />

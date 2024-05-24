@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "../../assets/Images/companylogo.jpg";
 
 function FavJobs() {
   const [applicants, setApplicants] = useState([]);
+  const navigate=useNavigate()
   const location = useLocation();
   const id = location?.state?.id;
   const title = location?.state?.title;
+
+
+  const handleProfile=(id)=>{
+    console.log(id);
+    navigate("/user/", {
+      state: {
+        id: id,
+      },
+    });
+  }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +31,7 @@ function FavJobs() {
             `http://localhost:3000/api/job/applicants/${id}`
           );
           const { data } = await response.json();
+          console.log("Data=>",data);
           const { applications } = data[0];
           console.log("Applications:", applications);
           setApplicants(applications);
@@ -52,7 +65,7 @@ function FavJobs() {
             </th>
           </tr>
         </thead>
-        <tbody className="text-gray-700">
+        <tbody className="text-gray-700 cursor-pointer">
           {applicants.length > 0 &&
             applicants.map((application, index) => {
               const {
@@ -62,13 +75,16 @@ function FavJobs() {
                   userProfile: { picture },
                 },
                 status,
+                _id,
                 createdAt,
+                
               } = application;
 
-              console.log(name, email, picture, status, createdAt);
+              console.log(name, email, picture, status, createdAt,_id);
+              // console.log(application.applicant._id);
 
               return (
-                <tr key={index}>
+                <tr key={index} onClick={()=>{handleProfile(application.applicant._id)}}>
                   <td className="flex items-center space-x-4 py-3 px-4">
                     <img
                       src={Avatar}

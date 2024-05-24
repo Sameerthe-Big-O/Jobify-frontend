@@ -51,7 +51,7 @@ function SignIn() {
       }
 
       const UserData = await response.json();
-      console.log("SignIn=>",UserData);
+      console.log("SignIn=>", UserData);
       localStorage.setItem("token", JSON.stringify(UserData));
       setFormData({
         email: "",
@@ -59,16 +59,23 @@ function SignIn() {
       });
 
       setError(false); // Clear any previous errors
-      const localdata = localStorage.getItem("token");
-      console.log(localdata);
-      if (localdata != null) {
+      const localdata = JSON.parse(localStorage.getItem("token"));
+      console.log("Login=>", localdata.data.role);
+      if (localdata.data.role === "Company" || localdata.data.role === "User") {
         navigate("/");
-        console.log("Sccuess");
+        console.log("Sccuess Login For User and Company");
         dispatch(login());
         localStorage.setItem("Login", true);
         const LoginData = localStorage.getItem("Login");
         console.log("SignIn=>", LoginData);
         // dispatch(toggleLogin());
+      } else if (localdata.data.role === "Superadmin") {
+        navigate("/admin");
+        console.log("Sccuess Admin");
+        dispatch(login());
+        localStorage.setItem("Login", true);
+        const LoginData = localStorage.getItem("Login");
+        console.log("SignIn=>", LoginData);
       } else {
         setError(true);
         navigate("/signin");
@@ -461,7 +468,7 @@ function SignIn() {
                         <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                       </div>
                       <input
-                        type={showpass?"text":"password"}
+                        type={showpass ? "text" : "password"}
                         name="password"
                         className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-blue-500"
                         placeholder="************"
@@ -474,7 +481,11 @@ function SignIn() {
                           setShowpass(!showpass);
                         }}
                       >
-                        {showpass ? <FaEye /> : <FaEyeSlash className="text-lg"/>}
+                        {showpass ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash className="text-lg" />
+                        )}
                       </div>
                     </div>
                   </div>

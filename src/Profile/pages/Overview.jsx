@@ -17,9 +17,9 @@ function Overview() {
             `http://localhost:3000/api/company/jobs/${companyId.data.id}`
           );
           const { data } = await response.json();
-          console.log(data);
+          console.log("DATA=>",data);
           let { jobs } = data[0];
-          console.log(jobs);
+          console.log("JOBS=>",jobs);
           setData(jobs);
         } catch (error) {
           console.error("Failed to fetch data", error);
@@ -39,8 +39,8 @@ function Overview() {
     });
   };
   return (
-    <div>
-      <table className="w-full bg-white  overflow-scroll">
+    <div className="overflow-x-scroll">
+      <table className="w-[1500px] bg-white  overflow-x-scroll overflow-y-scroll">
         <thead className="bg-gray-800 text-white">
           <tr>
             <th className=" text-left py-3 px-4 uppercase font-semibold text-sm">
