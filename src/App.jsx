@@ -65,6 +65,7 @@ import UserApplication from "./Profile/pages/UserApplication";
 import Userjobs from "./Profile/pages/Userjobs";
 import UserOverview from "./Profile/pages/UserOverview";
 import AdminPrivate from "./Components/AdminPrivate";
+import Chat from "./Profile/pages/CompanyAssismentBot";
 
 function App() {
   const isDarkMode = useSelector(selectDarkMode);
@@ -112,6 +113,9 @@ function App() {
                   <Route path="allapplication" element={<AllApplications />} />
                   <Route path="jobcandidate" element={<FavJobs />} />
                   <Route path="alluserjob" element={<Userjobs />} />
+                  <Route path="interview" element={<Zoom />} />
+                  <Route path="botassit" element={<Chat />} />
+
                   <Route
                     path="userapplications"
                     element={<UserApplication />}
@@ -132,7 +136,7 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="country" element={<Country />} />
               <Route path="auth" element={<Dashboard />} />
-              <Route path="order" element={<Order />} />
+              <Route path="applications" element={<Order />} />
               <Route path="settings" element={<Settings />} />
               <Route path="jobcategory" element={<JobCategories />} />
               <Route path="jobrole" element={<JobRoles />} />

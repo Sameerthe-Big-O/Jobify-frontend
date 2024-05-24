@@ -26,17 +26,22 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.auth);
   const { filter, setFilter } = useContext(LoginContext);
+  const loginCheck = localStorage.getItem("Login");
+  const userCheck = JSON.parse(localStorage.getItem("token"));
+  console.log(userCheck.data.role);
+  const UserCheck = userCheck.data.role;
   const dispatch = useDispatch();
-  // console.log(isLogedIn);
+  console.log(UserCheck);
   const routes = [
     {
       path: "/",
       name: "Home",
     },
     {
-      path: "/jobs",
-      name: "Find Job",
+      path: userCheck.data.role === "Company" ? "/candidate" : "/jobs",
+      name: userCheck.data.role === "Company" ? "Find Candidate" : "Find Job",
     },
+    userCheck.data.role === 'User' || userCheck.data.role === 'Admin' &&
     {
       path: "/companies",
       name: "Companies",
@@ -55,7 +60,6 @@ function Navbar() {
     setActive(index); // Set activeIndex to the clicked item's index
     setOpen(!open);
   };
-  const loginCheck = localStorage.getItem("Login");
 
   return (
     <div className="flex flex-col w-[100%] h-[100%]   ">

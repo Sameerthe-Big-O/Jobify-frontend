@@ -58,7 +58,7 @@ export default function App() {
 
   return (
     <div
-      className="myCallContainer"
+      className="myCallContainer "
       ref={myMeeting}
       style={{ width: "100vw", height: "100vh" }}
     ></div>

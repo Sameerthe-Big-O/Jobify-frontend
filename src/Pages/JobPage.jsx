@@ -279,7 +279,7 @@ function JobPage() {
       setCategory(value);
     }
   };
-  // console.log("Job Page",jobsData.title);
+  console.log("Job Page",jobsData);
 
   return (
     <>

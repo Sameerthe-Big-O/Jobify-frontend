@@ -1,8 +1,9 @@
 import React from 'react'
+import AllApplications from './Applications'
 
 function UserApplication() {
   return (
-    <div>UserApplication</div>
+    <div><AllApplications/></div>
   )
 }
 

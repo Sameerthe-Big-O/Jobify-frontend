@@ -33,8 +33,8 @@ function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("ok");
-
+    console.log("ok",formData);
+  
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
@@ -51,40 +51,30 @@ function SignIn() {
       }
 
       const UserData = await response.json();
-      console.log("SignIn=>", UserData);
+      console.log("SignIn=>",UserData);
       localStorage.setItem("token", JSON.stringify(UserData));
       setFormData({
         email: "",
         password: "",
       });
-
-      setError(false); // Clear any previous errors
-      const localdata = JSON.parse(localStorage.getItem("token"));
-      console.log("Login=>", localdata.data.role);
-      if (localdata.data.role === "Company" || localdata.data.role === "User") {
-        navigate("/");
-        console.log("Sccuess Login For User and Company");
+      const localdata = JSON.parse(localStorage.getItem("token"))
+      console.log("Login Data=>",localdata);
+      if (localdata != null) {
+        localdata.data.role==="Admin"?navigate("/admin"):navigate("/")
+        console.log("Sccuess");
         dispatch(login());
         localStorage.setItem("Login", true);
         const LoginData = localStorage.getItem("Login");
         console.log("SignIn=>", LoginData);
         // dispatch(toggleLogin());
-      } else if (localdata.data.role === "Superadmin") {
-        navigate("/admin");
-        console.log("Sccuess Admin");
-        dispatch(login());
-        localStorage.setItem("Login", true);
-        const LoginData = localStorage.getItem("Login");
-        console.log("SignIn=>", LoginData);
       } else {
-        setError(true);
         navigate("/signin");
         // dispatch(logout());
         // logout()
         localStorage.setItem("Login", false);
       }
     } catch (error) {
-      setError(error.message || "An error occurred. Please try again.");
+
     }
   };
   return (
@@ -468,7 +458,7 @@ function SignIn() {
                         <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                       </div>
                       <input
-                        type={showpass ? "text" : "password"}
+                        type={showpass?"text":"password"}
                         name="password"
                         className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-blue-500"
                         placeholder="************"
@@ -481,18 +471,11 @@ function SignIn() {
                           setShowpass(!showpass);
                         }}
                       >
-                        {showpass ? (
-                          <FaEye />
-                        ) : (
-                          <FaEyeSlash className="text-lg" />
-                        )}
+                        {showpass ? <FaEye /> : <FaEyeSlash className="text-lg"/>}
                       </div>
                     </div>
                   </div>
                 </div>
-                {error && (
-                  <p style={{ color: "red" }}>Please fill in all fields.</p>
-                )}
                 <div className="flex -mx-3">
                   <div className="w-full px-3 mb-5">
                     <button

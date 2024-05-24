@@ -21,7 +21,7 @@ const ProfileMenu = () => {
   const Data = JSON.parse(localStorage.getItem("token"))
   console.log("=>Token",Data);
   const [userData, setUserData] = useState([Data]);
-  console.log(userData);
+  console.log("UserData=>",userData);
   // console.log("Navbar=>", JSON.parse(Data));
   const handleLogoutClick = () => {
    
@@ -50,7 +50,7 @@ const ProfileMenu = () => {
           />
         </button>
         {userData.map((data,index)=>(
-          <div className="text-white font-inter text-xs" key={index}>{data.data.name}</div>
+          <div className="text-white font-inter text-xs" key={index}>{data?.data?.name}</div>
         ))}
       </div>
       {isOpen && (

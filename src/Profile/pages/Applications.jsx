@@ -111,7 +111,7 @@ function AllApplications() {
                       space-x-4 text-black
                       "
                       >
-                        {JobStatus === false}
+                        {JobStatus === false ? "false":"true"}
                       </td>
                     </tr>
                   );

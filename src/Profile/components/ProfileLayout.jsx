@@ -38,9 +38,19 @@ function ProfileLayout() {
 
   const routes = [
     {
-      path: isCompany ?"/companydashbaord":"userdashbaord",
-      name: isCompany ? "Company Overview" : "User Overview",
-      icon: <LuLayers />,
+      path: isCompany &&"/companydashbaord",
+      name: isCompany && "Job Listing" ,
+      icon: isCompany && <LuLayers />,
+    },
+    {
+      path: isCompany &&"/interview",
+      name: isCompany && "Start Interview" ,
+      icon: isCompany && <LuLayers />,
+    },
+    {
+      path: isCompany &&"/botassit",
+      name: isCompany && "Bot Assit" ,
+      icon: isCompany && <LuLayers />,
     },
     {
       path: isCompany ? "/allapplication":"/userapplications",
@@ -53,9 +63,9 @@ function ProfileLayout() {
       icon:<CiBookmark />,
     },
     {
-      path: isCompany ? "/jobpost" : "/job-alert",
-      name: isCompany ? "Job Post" : "Job Alert",
-      icon: isCompany ? <PiBagLight /> : <HiOutlineBellAlert />,
+      path: isCompany && "/jobpost" ,
+      name: isCompany && "Job Post" ,
+      icon: isCompany && <PiBagLight /> ,
     },
     {
       path: "/message",

@@ -24,8 +24,8 @@ function AdminLayout() {
       icon: <RxDashboard />,
     },
     {
-      path: "/admin/order",
-      name: "Order",
+      path: "/admin/applications",
+      name: "Application",
       icon: <MdOutlineBorderColor />,
     },
     {
@@ -42,26 +42,6 @@ function AdminLayout() {
       path: "/admin/jobs",
       name: "Jobs",
       icon: <PiHandbagSimpleBold />,
-    },
-    {
-      path: "/admin/jobcategory",
-      name: "Job Category",
-      icon: <BiCategory />,
-    },
-    {
-      path: "/admin/jobrole",
-      name: "Job Role",
-      icon: <MdContentPasteSearch />,
-    },
-    {
-      path: "/admin/country",
-      name: "Country",
-      icon: <MdOutlineAddLocationAlt />,
-    },
-    {
-      path: "/admin/settings",
-      name: "Settings",
-      icon: <IoSettingsOutline />,
     },
     {
       path: "/signin",
