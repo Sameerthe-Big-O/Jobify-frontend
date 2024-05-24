@@ -10,10 +10,10 @@ function AdminPrivate() {
   // const { isAuthenticated } = useSelector((state) => state.auth);
   const LoginCheck = localStorage.getItem("Login");
   const LoginData = JSON.parse(localStorage.getItem("token"));
-  console.log("Admin Private Route=>", LoginCheck.data.role);
+  console.log("Admin Private Route=>", LoginData.data.role);
   return (
     <>
-      {LoginCheck && LoginCheck.data.role == "Admin" ? (
+      {LoginCheck && LoginData.data.role == "Admin" ? (
         <Outlet />
       ) : (
         <div

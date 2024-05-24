@@ -42,7 +42,7 @@ function FavJobs() {
     };
     fetchData();
   }, [id]);
-
+console.log( "Appliatants",applicants);
   return (
     <div>
       <h1 className="mb-3 font-bold font-mono">
@@ -68,19 +68,19 @@ function FavJobs() {
         <tbody className="text-gray-700 cursor-pointer">
           {applicants.length > 0 &&
             applicants.map((application, index) => {
-              const {
-                applicant: {
-                  email,
-                  name,
-                  userProfile: { picture },
-                },
-                status,
-                _id,
-                createdAt,
+              // const {
+              //   applicant: {
+              //     email,
+              //     name,
+              //     userProfile: { picture },
+              //   },
+              //   status,
+              //   _id,
+              //   createdAt,
                 
-              } = application;
+              // } = application;
 
-              console.log(name, email, picture, status, createdAt,_id);
+              // console.log(name, email, picture, status, createdAt,_id);
               // console.log(application.applicant._id);
 
               return (
@@ -91,12 +91,12 @@ function FavJobs() {
                       // alt={`${name}'s profile`}
                       className="w-10 h-10 rounded-full"
                     />
-                    <span>{name}</span>
+                    <span>{application?.applicant?.name}</span>
                   </td>
-                  <td className="py-3 px-4">{email}</td>
-                  <td className="py-3 px-4">{status}</td>
+                  <td className="py-3 px-4">{application?.applicant?.email}</td>
+                  <td className="py-3 px-4">{application?.status}</td>
                   <td className="py-3 px-4">
-                    {new Date(createdAt).toLocaleDateString()}
+                    {new Date(application?.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
               );

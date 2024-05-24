@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CardInfo from '../component/CardInfo'
 
 function Dashboard() {
-  const arr=[1,2,3,4,5,6,7,8]
+  const [company,setCompany]=useState([])
+  const [Jobs,setJobs]=useState([])
+  const [allUser,setAllUser]=useState([])
+  const [applications,setAllApplications]=useState([])
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // const comRes=await fetch
+    
+    } catch (error) {
+      
+    }
+  }
+  fetchData()
+ 
+}, [])
+
   return (
     <div className='p-2'>
       <div className='text-2xl p-4'>Dashboard</div>
