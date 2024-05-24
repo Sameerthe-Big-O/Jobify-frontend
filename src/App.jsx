@@ -54,6 +54,9 @@ import JobPostForm from "./Pages/JobPostForm";
 import JobDetail from "./Pages/JobDetail";
 import Zoom from "./Pages/Zoom";
 import ComDetail from "./Pages/ComDetail";
+import UserAssiment from "./Profile/pages//UserAssistantBot";
+import CompanyAssiment from "./Profile/pages/CompanyAssismentBot";
+import Applications from "./Profile/pages/Applications";
 import UserProfileForm from "./Profile/pages/UserProfileForm";
 import { toast } from "react-toastify";
 import AllApplications from "./Profile/pages/AllApplications";
@@ -85,6 +88,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
+              <Route path="/bot" element={<UserAssiment />} />
+              <Route path="/companyBot" element={<CompanyAssiment />} />
+              <Route path="/applications" element={<Applications />} />
               <Route path="jobdetail" element={<JobDetail />} />
               <Route path="companydetail" element={<ComDetail />} />
               <Route element={<PrivateRoute />}>
